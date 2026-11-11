@@ -1,0 +1,1580 @@
+{
+  "city": "Köln",
+  "level": "A1",
+  "subtitle": "Greetings & Introducing Yourself",
+  "stops": [
+    {
+      "id": "6ae2d901d0117f7af5b21523",
+      "order": 1,
+      "kind": "mcq",
+      "title": "New Words",
+      "done": false,
+      "coins": [
+        {
+          "de": "Hallo",
+          "hi": "hello"
+        },
+        {
+          "de": "Tschüss",
+          "hi": "bye"
+        },
+        {
+          "de": "Guten Morgen",
+          "hi": "good morning"
+        },
+        {
+          "de": "Guten Tag",
+          "hi": "good day"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Which German word means \"Hello\"?",
+          "options": [
+            "Tschüss",
+            "Hallo",
+            "Danke",
+            "Bitte"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German phrase means \"Good Morning\"?",
+          "options": [
+            "Guten Abend",
+            "Gute Nacht",
+            "Guten Morgen",
+            "Guten Tag"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which German phrase means \"Good Afternoon\"?",
+          "options": [
+            "Guten Tag",
+            "Guten Morgen",
+            "Gute Nacht",
+            "Guten Abend"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which German phrase means \"Good Evening\"?",
+          "options": [
+            "Guten Morgen",
+            "Guten Abend",
+            "Guten Tag",
+            "Gute Nacht"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German phrase means \"Good Night\"?",
+          "options": [
+            "Gute Nacht",
+            "Guten Abend",
+            "Tschüss",
+            "Willkommen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which German word means \"Bye\" (informal)?",
+          "options": [
+            "Auf Wiedersehen",
+            "Tschüss",
+            "Willkommen",
+            "Bitte"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German phrase means \"Goodbye\" (formal)?",
+          "options": [
+            "Tschüss",
+            "Bis bald",
+            "Auf Wiedersehen",
+            "Danke"
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Which German word means \"Welcome\"?",
+          "options": [
+            "Willkommen",
+            "Bitte",
+            "Danke",
+            "Hallo"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which German word means \"Please\" / \"You're welcome\"?",
+          "options": [
+            "Danke",
+            "Bitte",
+            "Ja",
+            "Nein"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German word means \"Thank you\"?",
+          "options": [
+            "Bitte",
+            "Danke",
+            "Nein",
+            "Ja"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German word means \"Yes\"?",
+          "options": [
+            "Nein",
+            "Ja",
+            "Danke",
+            "Bitte"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German word means \"No\"?",
+          "options": [
+            "Ja",
+            "Nein",
+            "Bitte",
+            "Danke"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b21530",
+      "order": 2,
+      "kind": "mcq",
+      "title": "Say It in German",
+      "done": false,
+      "coins": [
+        {
+          "de": "Guten Abend",
+          "hi": "good evening"
+        },
+        {
+          "de": "Gute Nacht",
+          "hi": "good night"
+        },
+        {
+          "de": "Auf Wiedersehen",
+          "hi": "goodbye"
+        },
+        {
+          "de": "danke",
+          "hi": "thank you"
+        }
+      ],
+      "questions": [
+        {
+          "q": "How do you say \"My name is...\" in German?",
+          "options": [
+            "Ich komme aus...",
+            "Ich heiße...",
+            "Ich wohne in...",
+            "Ich bin... Jahre alt."
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"I am from...\" in German?",
+          "options": [
+            "Ich heiße...",
+            "Ich komme aus...",
+            "Wie geht's?",
+            "Auf Wiedersehen."
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"Nice to meet you\" informally in German?",
+          "options": [
+            "Freut mich, Sie kennenzulernen.",
+            "Freut mich, dich kennenzulernen.",
+            "Wie geht es Ihnen?",
+            "Guten Tag."
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"Nice to meet you\" formally in German?",
+          "options": [
+            "Freut mich, dich kennenzulernen.",
+            "Freut mich, Sie kennenzulernen.",
+            "Wie heißt du?",
+            "Willkommen!"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"How are you?\" informally in German?",
+          "options": [
+            "Wie geht es Ihnen?",
+            "Wie geht's?",
+            "Wie heißen Sie?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"How are you?\" formally in German?",
+          "options": [
+            "Wie geht's?",
+            "Wie geht es Ihnen?",
+            "Wie heißt du?",
+            "Wo wohnst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"I'm fine, thank you\" in German?",
+          "options": [
+            "Mir geht es gut, danke.",
+            "Ich verstehe nicht.",
+            "Bis später.",
+            "Freut mich."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How do you say \"What's your name?\" informally in German?",
+          "options": [
+            "Wie heißen Sie?",
+            "Wie heißt du?",
+            "Woher kommst du?",
+            "Wo wohnst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"What's your name?\" formally in German?",
+          "options": [
+            "Wie heißt du?",
+            "Wie heißen Sie?",
+            "Wie geht's?",
+            "Wie alt bist du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"Where are you from?\" in German?",
+          "options": [
+            "Wo wohnst du?",
+            "Woher kommst du?",
+            "Was bist du von Beruf?",
+            "Wie alt bist du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"I am ... years old\" in German?",
+          "options": [
+            "Ich bin ... Jahre alt.",
+            "Ich komme aus ...",
+            "Ich heiße ...",
+            "Ich wohne in ..."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "How do you say \"Goodbye\" in German?",
+          "options": [
+            "Willkommen!",
+            "Auf Wiedersehen!",
+            "Bitte schön!",
+            "Viel Glück!"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b2153d",
+      "order": 3,
+      "kind": "match",
+      "title": "Match the Following",
+      "done": false,
+      "coins": [
+        {
+          "de": "bitte",
+          "hi": "please / you are welcome"
+        },
+        {
+          "de": "ja",
+          "hi": "yes"
+        },
+        {
+          "de": "nein",
+          "hi": "no"
+        },
+        {
+          "de": "Entschuldigung",
+          "hi": "excuse me / sorry"
+        }
+      ],
+      "matchRounds": [
+        {
+          "round": 1,
+          "prompt": "Match each German greeting or goodbye with its meaning",
+          "pairs": [
+            {
+              "de": "Guten Morgen",
+              "hi": "morning greeting"
+            },
+            {
+              "de": "Guten Abend",
+              "hi": "evening greeting"
+            },
+            {
+              "de": "Gute Nacht",
+              "hi": "good night"
+            },
+            {
+              "de": "Auf Wiedersehen",
+              "hi": "formal goodbye"
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "prompt": "Match the questions with the correct answers",
+          "pairs": [
+            {
+              "de": "Wie heißt du?",
+              "hi": "Ich heiße Niklas."
+            },
+            {
+              "de": "Woher kommst du?",
+              "hi": "Aus Frankfurt."
+            },
+            {
+              "de": "Wo wohnst du?",
+              "hi": "In Zürich."
+            },
+            {
+              "de": "Wie geht's?",
+              "hi": "Danke, sehr gut!"
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "prompt": "Match the digits with the German numbers in words",
+          "pairs": [
+            {
+              "de": "3",
+              "hi": "drei"
+            },
+            {
+              "de": "7",
+              "hi": "sieben"
+            },
+            {
+              "de": "12",
+              "hi": "zwölf"
+            },
+            {
+              "de": "20",
+              "hi": "zwanzig"
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "prompt": "Match the countries with their official/spoken language",
+          "pairs": [
+            {
+              "de": "Brasilien",
+              "hi": "Portugiesisch"
+            },
+            {
+              "de": "Japan",
+              "hi": "Japanisch"
+            },
+            {
+              "de": "Spanien",
+              "hi": "Spanisch"
+            },
+            {
+              "de": "Algerien",
+              "hi": "Arabisch"
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "prompt": "Match the pronouns with the correct conjugation of 'kommen'",
+          "pairs": [
+            {
+              "de": "ich",
+              "hi": "komme"
+            },
+            {
+              "de": "du",
+              "hi": "kommst"
+            },
+            {
+              "de": "er / sie",
+              "hi": "kommt"
+            },
+            {
+              "de": "Sie (formal)",
+              "hi": "kommen"
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "prompt": "Match the symbols with their German names",
+          "pairs": [
+            {
+              "de": "@",
+              "hi": "ät"
+            },
+            {
+              "de": ".",
+              "hi": "Punkt"
+            },
+            {
+              "de": "_",
+              "hi": "Unterstrich"
+            },
+            {
+              "de": "-",
+              "hi": "minus"
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "prompt": "Match the German nouns with their English translations",
+          "pairs": [
+            {
+              "de": "das Handtuch",
+              "hi": "towel"
+            },
+            {
+              "de": "die Nudeln",
+              "hi": "noodles"
+            },
+            {
+              "de": "der Koffer",
+              "hi": "suitcase"
+            },
+            {
+              "de": "die Flasche",
+              "hi": "bottle"
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "prompt": "Match the alphabet letters with their German phonetic names",
+          "pairs": [
+            {
+              "de": "J",
+              "hi": "jot"
+            },
+            {
+              "de": "V",
+              "hi": "fau"
+            },
+            {
+              "de": "Q",
+              "hi": "ku"
+            },
+            {
+              "de": "Y",
+              "hi": "üpsilon"
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "prompt": "Match the people with their country of origin",
+          "pairs": [
+            {
+              "de": "Olivia Miller",
+              "hi": "aus den USA"
+            },
+            {
+              "de": "Gabriel Santos",
+              "hi": "aus Brasilien"
+            },
+            {
+              "de": "Alessia Conti",
+              "hi": "aus der Schweiz"
+            },
+            {
+              "de": "Kateb Brahim",
+              "hi": "aus Algerien"
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "prompt": "Match the English situations with the correct German phrases",
+          "pairs": [
+            {
+              "de": "You did not understand",
+              "hi": "Wie bitte?"
+            },
+            {
+              "de": "Say goodbye (informal)",
+              "hi": "Tschüs!"
+            },
+            {
+              "de": "Ask a stranger's name (formal)",
+              "hi": "Wie heißen Sie?"
+            },
+            {
+              "de": "See you soon",
+              "hi": "Bis bald!"
+            }
+          ]
+        }
+      ],
+      "pairs": [
+        {
+          "de": "Guten Morgen",
+          "hi": "morning greeting"
+        },
+        {
+          "de": "Guten Abend",
+          "hi": "evening greeting"
+        },
+        {
+          "de": "Gute Nacht",
+          "hi": "good night"
+        },
+        {
+          "de": "Auf Wiedersehen",
+          "hi": "formal goodbye"
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b21548",
+      "order": 4,
+      "kind": "order",
+      "title": "Build Sentences",
+      "done": false,
+      "coins": [
+        {
+          "de": "der Name",
+          "hi": "name",
+          "gender": "der"
+        },
+        {
+          "de": "die Stadt",
+          "hi": "city",
+          "gender": "die"
+        },
+        {
+          "de": "das Land",
+          "hi": "country",
+          "gender": "das"
+        },
+        {
+          "de": "der Freund",
+          "hi": "friend (male)",
+          "gender": "der"
+        }
+      ],
+      "sentences": [
+        {
+          "words": [
+            "Ich",
+            "heiße",
+            "Niklas"
+          ],
+          "hint": "[Niklas / ich / heiße]"
+        },
+        {
+          "words": [
+            "Wie",
+            "heißt",
+            "du"
+          ],
+          "hint": "[heißt / wie / du]"
+        },
+        {
+          "words": [
+            "Sie",
+            "kommt",
+            "aus",
+            "Japan"
+          ],
+          "hint": "[aus / Sie / kommt / Japan]"
+        },
+        {
+          "words": [
+            "Wo",
+            "wohnen",
+            "Sie"
+          ],
+          "hint": "[wohnen / wo / Sie]"
+        },
+        {
+          "words": [
+            "Ich",
+            "spreche",
+            "Deutsch"
+          ],
+          "hint": "[spreche / Deutsch / ich]"
+        },
+        {
+          "words": [
+            "Wie",
+            "geht's",
+            "dir"
+          ],
+          "hint": "[dir / wie / geht's]"
+        },
+        {
+          "words": [
+            "Woher",
+            "kommst",
+            "du"
+          ],
+          "hint": "[du / woher / kommst]"
+        },
+        {
+          "words": [
+            "Er",
+            "wohnt",
+            "in",
+            "Zürich"
+          ],
+          "hint": "[in / wohnt / Er / Zürich]"
+        },
+        {
+          "words": [
+            "Welche",
+            "Sprachen",
+            "sprechen",
+            "Sie"
+          ],
+          "hint": "[Sprachen / sprechen / Sie / Welche]"
+        },
+        {
+          "words": [
+            "Mein",
+            "Name",
+            "ist",
+            "Nina",
+            "Weber"
+          ],
+          "hint": "[ist / Name / Nina Weber / Mein]"
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b21553",
+      "order": 5,
+      "kind": "mcq",
+      "title": "Translate",
+      "done": false,
+      "coins": [
+        {
+          "de": "die Freundin",
+          "hi": "friend (female)",
+          "gender": "die"
+        },
+        {
+          "de": "heißen",
+          "hi": "to be called"
+        },
+        {
+          "de": "kommen",
+          "hi": "to come"
+        },
+        {
+          "de": "wohnen",
+          "hi": "to live"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Translate: \"My name is Peter.\"",
+          "options": [
+            "Ich komme aus Peter.",
+            "Ich heiße Peter.",
+            "Ich bin Peter Jahre alt.",
+            "Ich wohne in Peter."
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"I come from Germany.\"",
+          "options": [
+            "Ich komme aus Deutschland.",
+            "Ich heiße Deutschland.",
+            "Ich wohne in Deutschland.",
+            "Ich bin Deutschland."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Translate: \"I live in Munich.\"",
+          "options": [
+            "Ich komme aus München.",
+            "Ich heiße München.",
+            "Ich wohne in München.",
+            "Ich bin München."
+          ],
+          "answer": 2
+        },
+        {
+          "q": "Translate: \"I am 25 years old.\"",
+          "options": [
+            "Ich bin 25 Jahre alt.",
+            "Ich heiße 25 Jahre alt.",
+            "Ich komme 25 Jahre alt.",
+            "Ich wohne 25 Jahre alt."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Translate: \"What is your name?\" (informal)",
+          "options": [
+            "Wie heißen Sie?",
+            "Wie heißt du?",
+            "Wie geht's?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"Where are you from?\"",
+          "options": [
+            "Wo wohnst du?",
+            "Woher kommst du?",
+            "Wie alt bist du?",
+            "Was bist du von Beruf?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"How are you?\" (formal)",
+          "options": [
+            "Wie geht's?",
+            "Wie geht es Ihnen?",
+            "Wie heißt du?",
+            "Wo wohnst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"Nice to meet you.\" (formal)",
+          "options": [
+            "Freut mich, dich kennenzulernen.",
+            "Freut mich, Sie kennenzulernen.",
+            "Bis später.",
+            "Auf Wiedersehen."
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"I am fine, thank you.\"",
+          "options": [
+            "Mir geht es gut, danke.",
+            "Ich verstehe, danke.",
+            "Ich komme, danke.",
+            "Ich heiße, danke."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Translate: \"What is your profession?\"",
+          "options": [
+            "Wo wohnst du?",
+            "Was bist du von Beruf?",
+            "Wie alt bist du?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"See you later.\"",
+          "options": [
+            "Bis bald",
+            "Bis später",
+            "Auf Wiedersehen",
+            "Tschüss"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Translate: \"Excuse me, I don't understand.\"",
+          "options": [
+            "Entschuldigung, ich verstehe nicht.",
+            "Entschuldigung, ich verstehe.",
+            "Bitte, ich komme nicht.",
+            "Danke, ich wohne nicht."
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b21560",
+      "order": 6,
+      "kind": "mcq",
+      "title": "Fill the Blanks",
+      "done": false,
+      "coins": [
+        {
+          "de": "sprechen",
+          "hi": "to speak"
+        },
+        {
+          "de": "lernen",
+          "hi": "to learn"
+        },
+        {
+          "de": "der Dom",
+          "hi": "cathedral",
+          "gender": "der"
+        },
+        {
+          "de": "die Sprache",
+          "hi": "language",
+          "gender": "die"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Ich ___ (wohnen) in Berlin.",
+          "options": [
+            "wohne",
+            "wohnst",
+            "wohnt",
+            "wohnen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Du ___ (sprechen) gut Deutsch.",
+          "options": [
+            "sprichst",
+            "sprechst",
+            "spricht",
+            "sprechen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Er ___ (heißen) Jan.",
+          "options": [
+            "heißt",
+            "heiße",
+            "heißen",
+            "heißst"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Ich ___ Julia. (sein)",
+          "options": [
+            "bin",
+            "bist",
+            "ist",
+            "sind"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Sie kommt ___ Schweiz.",
+          "options": [
+            "aus der",
+            "aus den",
+            "aus die",
+            "aus"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Olivia Miller kommt aus ___ USA.",
+          "options": [
+            "den",
+            "der",
+            "die",
+            "das"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "___ heißen Sie? – Ich heiße Oliver Hansen.",
+          "options": [
+            "Wie",
+            "Wo",
+            "Woher",
+            "Wer"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Wie geht es ___? – Danke, gut. Und Ihnen?",
+          "options": [
+            "Ihnen",
+            "dir",
+            "Sie",
+            "Ihr"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Guten ___! (evening greeting)",
+          "options": [
+            "Abend",
+            "Morgen",
+            "Nacht",
+            "Tag"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "16 = ___ (write the number in words)",
+          "options": [
+            "sechzehn",
+            "sechszehn",
+            "siebzehn",
+            "sechzig"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Ich ___ aus Indien. (I come from India.)",
+          "options": [
+            "komme",
+            "kommst",
+            "kommt",
+            "kommen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Wo ___ du? (Where do you live?)",
+          "options": [
+            "wohnst",
+            "wohne",
+            "wohnt",
+            "wohnen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Das ___ Frau Kowalski. (This is Mrs Kowalski.)",
+          "options": [
+            "ist",
+            "bin",
+            "bist",
+            "sind"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Sie ___ Spanisch. (She speaks Spanish.)",
+          "options": [
+            "spricht",
+            "sprechen",
+            "spreche",
+            "sprichst"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Woher ___ Sie, Herr Hansen? (Where do you come from, Mr Hansen? (formal))",
+          "options": [
+            "kommen",
+            "kommt",
+            "kommst",
+            "komme"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Ich ___ Deutsch. (I am learning German.)",
+          "options": [
+            "lerne",
+            "lernst",
+            "lernt",
+            "lernen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Wie ___ Sie? (What is your name? (formal))",
+          "options": [
+            "heißen",
+            "heißt",
+            "heiße",
+            "heiß"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Du ___ neu hier. (You are new here.)",
+          "options": [
+            "bist",
+            "bin",
+            "ist",
+            "sind"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Jan ___ in Zürich. (Jan lives in Zürich.)",
+          "options": [
+            "wohnt",
+            "wohne",
+            "wohnst",
+            "wohnen"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Welche Sprachen ___ Sie? (Which languages do you speak? (formal))",
+          "options": [
+            "sprechen",
+            "sprecht",
+            "sprichst",
+            "spricht"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b21575",
+      "order": 7,
+      "kind": "mcq",
+      "title": "Speaking",
+      "done": false,
+      "coins": [
+        {
+          "de": "Hallo",
+          "hi": "hello"
+        },
+        {
+          "de": "Tschüss",
+          "hi": "bye"
+        },
+        {
+          "de": "Guten Morgen",
+          "hi": "good morning"
+        },
+        {
+          "de": "Guten Tag",
+          "hi": "good day"
+        }
+      ],
+      "questions": [
+        {
+          "q": "You meet someone new. What should you say to introduce yourself?",
+          "options": [
+            "Ich heiße...",
+            "Ich verstehe nicht.",
+            "Bis später.",
+            "Gute Nacht."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to ask someone's name politely (formal). What should you say?",
+          "options": [
+            "Wie heißt du?",
+            "Wie heißen Sie?",
+            "Wie geht's?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Someone asks \"Wie geht's?\" and you're doing well. What should you reply?",
+          "options": [
+            "Mir geht es gut, danke.",
+            "Ich verstehe nicht.",
+            "Auf Wiedersehen.",
+            "Willkommen!"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to end a conversation politely. What should you say?",
+          "options": [
+            "Auf Wiedersehen!",
+            "Willkommen!",
+            "Freut mich!",
+            "Guten Morgen!"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to ask where someone lives. What should you say?",
+          "options": [
+            "Woher kommst du?",
+            "Wo wohnst du?",
+            "Wie alt bist du?",
+            "Was bist du von Beruf?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "You didn't hear clearly and want repetition. What should you say?",
+          "options": [
+            "Können Sie das wiederholen?",
+            "Ich verstehe.",
+            "Bitte schön.",
+            "Viel Glück!"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to wish someone luck before an exam. What should you say?",
+          "options": [
+            "Viel Spaß!",
+            "Viel Glück!",
+            "Herzlichen Glückwunsch!",
+            "Gute Nacht!"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "You want to thank someone sincerely. What should you say?",
+          "options": [
+            "Bitte schön!",
+            "Vielen Dank!",
+            "Entschuldigung!",
+            "Willkommen!"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Someone thanks you, and you want to respond politely. What should you say?",
+          "options": [
+            "Vielen Dank!",
+            "Bitte schön!",
+            "Entschuldigung!",
+            "Auf Wiedersehen!"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "You bump into someone accidentally. What should you say?",
+          "options": [
+            "Entschuldigung!",
+            "Willkommen!",
+            "Viel Glück!",
+            "Bis später!"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to tell someone your age. What should you say?",
+          "options": [
+            "Ich bin ... Jahre alt.",
+            "Ich komme aus ...",
+            "Ich heiße ...",
+            "Ich wohne in ..."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to ask someone's profession. What should you say?",
+          "options": [
+            "Wo wohnst du?",
+            "Was bist du von Beruf?",
+            "Wie alt bist du?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b21582",
+      "order": 8,
+      "kind": "mcq",
+      "title": "Read and Write",
+      "done": false,
+      "coins": [
+        {
+          "de": "Guten Abend",
+          "hi": "good evening"
+        },
+        {
+          "de": "Gute Nacht",
+          "hi": "good night"
+        },
+        {
+          "de": "Auf Wiedersehen",
+          "hi": "goodbye"
+        },
+        {
+          "de": "danke",
+          "hi": "thank you"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Text A:\nDas ist Frau Lang. Sie ist Reiseführerin. Sie kommt aus Deutschland und wohnt in Frankfurt. Sie spricht Deutsch, Spanisch und Englisch.\n\nWer ist Frau Lang? (Who is Frau Lang?)",
+          "options": [
+            "Sie ist Reiseführerin.",
+            "Sie ist Lehrerin.",
+            "Sie ist Ärztin.",
+            "Sie ist Studentin."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Text A:\nDas ist Frau Lang. Sie ist Reiseführerin. Sie kommt aus Deutschland und wohnt in Frankfurt. Sie spricht Deutsch, Spanisch und Englisch.\n\nWoher kommt Frau Lang?",
+          "options": [
+            "Sie kommt aus Deutschland.",
+            "Sie kommt aus Spanien.",
+            "Sie kommt aus England.",
+            "Sie kommt aus der Schweiz."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Text A:\nDas ist Frau Lang. Sie ist Reiseführerin. Sie kommt aus Deutschland und wohnt in Frankfurt. Sie spricht Deutsch, Spanisch und Englisch.\n\nWo wohnt Frau Lang?",
+          "options": [
+            "Sie wohnt in Frankfurt.",
+            "Sie wohnt in Berlin.",
+            "Sie wohnt in Köln.",
+            "Sie wohnt in München."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Text A:\nDas ist Frau Lang. Sie ist Reiseführerin. Sie kommt aus Deutschland und wohnt in Frankfurt. Sie spricht Deutsch, Spanisch und Englisch.\n\nWelche Sprachen spricht Frau Lang?",
+          "options": [
+            "Sie spricht Deutsch, Spanisch und Englisch.",
+            "Sie spricht nur Deutsch.",
+            "Sie spricht Italienisch und Französisch.",
+            "Sie spricht Deutsch und Russisch."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Text B:\nDas ist Alessia Conti. Sie kommt aus der Schweiz. Sie wohnt in Lugano. Sie spricht Italienisch, Französisch und Deutsch.\n\nWoher kommt Alessia Conti?",
+          "options": [
+            "Sie kommt aus der Schweiz.",
+            "Sie kommt aus Italien.",
+            "Sie kommt aus Deutschland.",
+            "Sie kommt aus Frankreich."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Text B:\nDas ist Alessia Conti. Sie kommt aus der Schweiz. Sie wohnt in Lugano. Sie spricht Italienisch, Französisch und Deutsch.\n\nWo wohnt Alessia?",
+          "options": [
+            "Sie wohnt in Lugano.",
+            "Sie wohnt in Zürich.",
+            "Sie wohnt in Bern.",
+            "Sie wohnt in Genf."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Text B:\nDas ist Alessia Conti. Sie kommt aus der Schweiz. Sie wohnt in Lugano. Sie spricht Italienisch, Französisch und Deutsch.\n\nWie viele Sprachen spricht Alessia? (How many languages?)",
+          "options": [
+            "Sie spricht drei Sprachen: Italienisch, Französisch und Deutsch.",
+            "Sie spricht nur eine Sprache.",
+            "Sie spricht zwei Sprachen.",
+            "Sie spricht vier Sprachen."
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "6ae2d901d0117f7af5b2158d",
+      "order": 9,
+      "kind": "mcq",
+      "title": "Writing",
+      "done": false,
+      "coins": [
+        {
+          "de": "bitte",
+          "hi": "please / you are welcome"
+        },
+        {
+          "de": "ja",
+          "hi": "yes"
+        },
+        {
+          "de": "nein",
+          "hi": "no"
+        },
+        {
+          "de": "Entschuldigung",
+          "hi": "excuse me / sorry"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Which sentence correctly introduces a name?",
+          "options": [
+            "Ich heiße Tom.",
+            "Ich heißen Tom.",
+            "Ich heißt Tom.",
+            "Ich bin heiße Tom."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly states origin?",
+          "options": [
+            "Ich komme aus Frankreich.",
+            "Ich kommen aus Frankreich.",
+            "Ich komme Frankreich.",
+            "Ich aus komme Frankreich."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly states place of residence?",
+          "options": [
+            "Ich wohne in Berlin.",
+            "Ich wohnt in Berlin.",
+            "Ich wohne Berlin.",
+            "In Berlin ich wohne."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly states age?",
+          "options": [
+            "Ich bin 19 Jahre alt.",
+            "Ich bin 19 Jahre alte.",
+            "Ich habe 19 Jahre alt.",
+            "Ich bin alt 19 Jahre."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which question correctly asks for someone's name informally?",
+          "options": [
+            "Wie heißt du?",
+            "Wie heißen du?",
+            "Wie du heißt?",
+            "Heißt wie du?"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which question correctly asks for someone's name formally?",
+          "options": [
+            "Wie heißen Sie?",
+            "Wie heißt Sie?",
+            "Wie Sie heißen?",
+            "Heißen wie Sie?"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly says \"Nice to meet you\" formally?",
+          "options": [
+            "Freut mich, Sie kennenzulernen.",
+            "Freut mich Sie kennenzulernen zu.",
+            "Sie freut mich kennenzulernen.",
+            "Freut Sie mich kennenzulernen."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly asks about profession?",
+          "options": [
+            "Was bist du von Beruf?",
+            "Was du bist von Beruf?",
+            "Bist was du von Beruf?",
+            "Von Beruf bist was du?"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly says \"I don't understand\"?",
+          "options": [
+            "Ich verstehe nicht.",
+            "Ich nicht verstehe.",
+            "Verstehe ich nicht.",
+            "Nicht ich verstehe."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly asks someone to speak slowly (formal)?",
+          "options": [
+            "Sprechen Sie bitte langsam.",
+            "Bitte Sie sprechen langsam.",
+            "Langsam sprechen Sie bitte.",
+            "Sprechen bitte Sie langsam."
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly wishes good luck?",
+          "options": [
+            "Viel Glück!",
+            "Glück viel!",
+            "Viel Glücke!",
+            "Viele Glück!"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Which sentence correctly says thank you very much?",
+          "options": [
+            "Vielen Dank!",
+            "Viel Danke!",
+            "Vielen Danke!",
+            "Viele Dank!"
+          ],
+          "answer": 0
+        }
+      ]
+    },
+    {
+      "id": "boss_1",
+      "order": 10,
+      "kind": "boss",
+      "title": "Köln Boss Exam",
+      "done": false,
+      "coins": [
+        {
+          "de": "Hallo",
+          "hi": "hello"
+        },
+        {
+          "de": "Tschüss",
+          "hi": "bye"
+        },
+        {
+          "de": "Guten Morgen",
+          "hi": "good morning"
+        },
+        {
+          "de": "Guten Tag",
+          "hi": "good day"
+        },
+        {
+          "de": "Guten Abend",
+          "hi": "good evening"
+        }
+      ],
+      "questions": [
+        {
+          "q": "Which German word means \"Hello\"?",
+          "options": [
+            "Tschüss",
+            "Hallo",
+            "Danke",
+            "Bitte"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which German word means \"Thank you\"?",
+          "options": [
+            "Bitte",
+            "Danke",
+            "Nein",
+            "Ja"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "How do you say \"What's your name?\" informally in German?",
+          "options": [
+            "Wie heißen Sie?",
+            "Wie heißt du?",
+            "Woher kommst du?",
+            "Wo wohnst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Arrange the words to make a correct sentence: [dir / wie / geht's]",
+          "options": [
+            "dir",
+            "wie",
+            "geht's"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Translate: \"What is your name?\" (informal)",
+          "options": [
+            "Wie heißen Sie?",
+            "Wie heißt du?",
+            "Wie geht's?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Er ___ (heißen) Jan.",
+          "options": [
+            "heißt",
+            "heiße",
+            "heißen",
+            "heißst"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Das ___ Frau Kowalski. (This is Mrs Kowalski.)",
+          "options": [
+            "ist",
+            "bin",
+            "bist",
+            "sind"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "You want to ask someone's name politely (formal). What should you say?",
+          "options": [
+            "Wie heißt du?",
+            "Wie heißen Sie?",
+            "Wie geht's?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "You want to ask someone's profession. What should you say?",
+          "options": [
+            "Wo wohnst du?",
+            "Was bist du von Beruf?",
+            "Wie alt bist du?",
+            "Woher kommst du?"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Which sentence correctly states place of residence?",
+          "options": [
+            "Ich wohne in Berlin.",
+            "Ich wohnt in Berlin.",
+            "Ich wohne Berlin.",
+            "In Berlin ich wohne."
+          ],
+          "answer": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2057 @@
+/* ========================================================
+   KÖLN GAME: IMMERSIVE 2D/2.5D JOURNEY STYLES
+   Lightweight, pure CSS/SVG hardware-accelerated transforms
+   ======================================================== */
+
+.kg-root {
+  position: relative;
+  background: #111;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+}
+
+.kg-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  transition: background 0.8s ease;
+}
+
+/* Dynamic Sky with Sun/Moon & Floating Cloud layers */
+.kg-sky {
+  position: absolute;
+  inset: 0;
+  transition: background 0.5s ease;
+  z-index: 0;
+}
+
+/* Ambient Sky Elements */
+.kg-sky-sun {
+  position: absolute;
+  top: 12vh;
+  left: 65vw;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff7d6 20%, #ffcf54 60%, rgba(255, 179, 71, 0) 75%);
+  box-shadow: 0 0 45px rgba(255, 214, 102, 0.6);
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.kg-sky-stars {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1.5px 1.5px at 15% 20%, #fff 100%, transparent),
+    radial-gradient(2px 2px at 35% 12%, #ffeaa7 100%, transparent),
+    radial-gradient(1px 1px at 55% 28%, #fff 100%, transparent),
+    radial-gradient(2.5px 2.5px at 78% 18%, #fdcb6e 100%, transparent),
+    radial-gradient(1.5px 1.5px at 88% 35%, #fff 100%, transparent),
+    radial-gradient(2px 2px at 22% 40%, #ffeaa7 100%, transparent);
+  background-repeat: repeat;
+  background-size: 350px 250px;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+
+/* Parallax Scenery Layers */
+.kg-layer {
+  position: absolute;
+  left: 0;
+  background-repeat: repeat-x;
+  background-position: left bottom;
+  background-size: auto 100%;
+  will-change: transform;
+  pointer-events: none;
+}
+
+.kg-far {
+  bottom: 22vh;
+  height: 48vh;
+  z-index: 1;
+  opacity: 0.92;
+}
+
+.kg-mid {
+  bottom: 18vh;
+  height: 38vh;
+  z-index: 2;
+}
+
+/* Floating ambient autumn/blossom leaves in the air */
+.kg-leaves-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+}
+
+.kg-leaf {
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  background: #df683e;
+  border-radius: 12px 2px;
+  opacity: 0.6;
+  animation: kg-leaf-drift 7s linear infinite;
+}
+
+.kg-leaf:nth-child(2) { left: 25%; animation-delay: -2s; animation-duration: 9s; background: #e09f3e; }
+.kg-leaf:nth-child(3) { left: 55%; animation-delay: -4s; animation-duration: 8s; background: #c84b31; }
+.kg-leaf:nth-child(4) { left: 80%; animation-delay: -1s; animation-duration: 10s; background: #d97736; }
+
+@keyframes kg-leaf-drift {
+  0% { transform: translate(100vw, -10px) rotate(0deg); }
+  100% { transform: translate(-30vw, 105vh) rotate(540deg); }
+}
+
+/* Track and Cobblestone Road */
+.kg-track {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  will-change: transform;
+  z-index: 3;
+}
+
+.kg-road {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 22vh;
+  background-repeat: repeat-x;
+  background-position: left top;
+  background-size: auto 100%;
+  border-top: 5px solid #2b2622;
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.28);
+}
+
+/* ----------------------------------------------------
+   TRAVELER CHARACTER ANIMATIONS
+   ---------------------------------------------------- */
+.kg-hero {
+  position: absolute;
+  left: 20vw;
+  bottom: 14vh;
+  transform: translateX(-50%);
+  z-index: 4;
+  pointer-events: none;
+  transition: transform 0.15s ease-out;
+}
+
+.kg-traveler {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kg-traveler-shadow {
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 12px;
+  background: rgba(20, 15, 10, 0.45);
+  border-radius: 50%;
+  filter: blur(2px);
+  transition: transform 0.2s, width 0.2s;
+}
+
+/* Idle Breathing */
+.kg-traveler.kg-idle .kg-torso,
+.kg-traveler.kg-idle .kg-head {
+  animation: kg-breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes kg-breathe {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* Walking Cycle */
+.kg-traveler.kg-walking .kg-traveler-svg {
+  animation: kg-char-bob 0.28s ease-in-out infinite alternate;
+}
+
+.kg-traveler.kg-walking .kg-traveler-shadow {
+  animation: kg-shadow-squash 0.28s ease-in-out infinite alternate;
+}
+
+.kg-traveler.kg-walking .kg-leg-front {
+  transform-origin: 52px 90px;
+  animation: kg-leg-swing-f 0.56s ease-in-out infinite;
+}
+
+.kg-traveler.kg-walking .kg-leg-back {
+  transform-origin: 40px 90px;
+  animation: kg-leg-swing-b 0.56s ease-in-out infinite;
+}
+
+.kg-traveler.kg-walking .kg-arm {
+  transform-origin: 44px 56px;
+  animation: kg-arm-swing 0.56s ease-in-out infinite alternate;
+}
+
+.kg-traveler.kg-walking .kg-scarf-tail {
+  transform-origin: 32px 50px;
+  animation: kg-scarf-flutter 0.35s ease-in-out infinite alternate;
+}
+
+@keyframes kg-char-bob {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-7px); }
+}
+
+@keyframes kg-shadow-squash {
+  0% { transform: translateX(-50%) scale(1); opacity: 0.45; }
+  100% { transform: translateX(-50%) scale(0.85); opacity: 0.3; }
+}
+
+@keyframes kg-leg-swing-f {
+  0% { transform: rotate(26deg); }
+  50% { transform: rotate(-26deg); }
+  100% { transform: rotate(26deg); }
+}
+
+@keyframes kg-leg-swing-b {
+  0% { transform: rotate(-26deg); }
+  50% { transform: rotate(26deg); }
+  100% { transform: rotate(-26deg); }
+}
+
+@keyframes kg-arm-swing {
+  0% { transform: rotate(-20deg); }
+  100% { transform: rotate(20deg); }
+}
+
+@keyframes kg-scarf-flutter {
+  0% { transform: rotate(-6deg) scaleY(0.9); }
+  100% { transform: rotate(14deg) scaleY(1.15); }
+}
+
+/* ----------------------------------------------------
+   3D-LOOK GOLD VOCABULARY COINS
+   ---------------------------------------------------- */
+.kg-coin {
+  position: absolute;
+  bottom: 27vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  transition: opacity 0.35s, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+  z-index: 3;
+}
+
+.kg-coin-disc {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff9b8 0%, #ffd000 45%, #d48800 85%, #8c5600 100%);
+  border: 2.5px solid #fff380;
+  box-shadow: 0 8px 18px rgba(212, 136, 0, 0.45), inset 0 2px 5px #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  animation: kg-coin-spin 3.2s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  transform-style: preserve-3d;
+}
+
+.kg-coin-disc::after {
+  content: "✦";
+  color: #8c5600;
+  font-size: 22px;
+  font-weight: 900;
+  text-shadow: 0 1px 2px #fff;
+}
+
+.kg-coin span {
+  font-size: 13.5px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 4px 12px;
+  border-radius: 14px;
+  color: #5c3514;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+  border: 1.5px solid #f2c94c;
+  white-space: nowrap;
+}
+
+.kg-coin-got {
+  opacity: 0;
+  transform: translate(-50%, -60px) scale(0.4);
+}
+
+@keyframes kg-coin-spin {
+  0% { transform: translateY(0) rotateY(0deg); }
+  50% { transform: translateY(-14px) rotateY(180deg) scale(1.08); }
+  100% { transform: translateY(0) rotateY(360deg); }
+}
+
+/* ----------------------------------------------------
+   LANDMARK CHECKPOINT ARCHES & GATES
+   ---------------------------------------------------- */
+.kg-stop {
+  position: absolute;
+  bottom: 21.5vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+/* Archway Structure */
+.kg-arch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Floating Interactive Emblem ABOVE the Gate */
+.kg-arch-float-badge {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  z-index: 6;
+  perspective: 600px;
+}
+
+.kg-float-halo {
+  position: absolute;
+  bottom: -4px;
+  width: 52px;
+  height: 14px;
+  background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.65) 0%, rgba(255, 215, 0, 0) 75%);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: kg-halo-breathe 3.4s ease-in-out infinite alternate;
+}
+
+.kg-float-emblem {
+  font-size: 56px;
+  line-height: 1;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.28));
+  display: inline-block;
+  transform-style: preserve-3d;
+  animation: kg-emblem-float 3.4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  cursor: pointer;
+}
+
+.kg-float-emblem.kg-is-done {
+  filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.85));
+  animation: kg-star-spin 4s ease-in-out infinite;
+}
+
+@keyframes kg-emblem-float {
+  0% {
+    transform: translateY(0) rotateY(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) rotateY(180deg) scale(1.15);
+  }
+  100% {
+    transform: translateY(0) rotateY(360deg) scale(1);
+  }
+}
+
+@keyframes kg-star-spin {
+  0% { transform: translateY(0) rotateY(0deg) scale(1); }
+  50% { transform: translateY(-16px) rotateY(180deg) scale(1.2); }
+  100% { transform: translateY(0) rotateY(360deg) scale(1); }
+}
+
+@keyframes kg-halo-breathe {
+  0% { transform: scale(0.8); opacity: 0.4; }
+  100% { transform: scale(1.3); opacity: 0.8; }
+}
+
+.kg-arch-roof {
+  background: linear-gradient(180deg, #d34c38 0%, #9e2a18 100%);
+  color: #fff;
+  padding: 5px 16px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  border: 2px solid #ffbaad;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.kg-arch-roof b {
+  background: #fff;
+  color: #9e2a18;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.kg-arch-portal {
+  position: relative;
+  width: 90px;
+  height: 95px;
+  border-top: 8px solid #5a4b42;
+  border-left: 10px solid #5a4b42;
+  border-right: 10px solid #5a4b42;
+  border-radius: 45px 45px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.kg-portal-marker {
+  font-size: 28px;
+  opacity: 0.85;
+  transition: transform 0.3s;
+}
+
+/* Barrier Gate Arm */
+.kg-gate-arm {
+  position: absolute;
+  bottom: 12px;
+  left: -20px;
+  width: 130px;
+  height: 8px;
+  background: repeating-linear-gradient(45deg, #e63946, #e63946 12px, #f1faee 12px, #f1faee 24px);
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  transform-origin: left center;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 5;
+}
+
+.kg-arch-open .kg-gate-arm {
+  transform: rotate(-78deg);
+}
+
+.kg-arch-open .kg-arch-roof {
+  background: linear-gradient(180deg, #2a9d8f 0%, #1d7066 100%);
+  border-color: #83e0d4;
+}
+
+.kg-arch-open .kg-arch-roof b {
+  color: #1d7066;
+}
+
+/* Clickable completed arches for replaying */
+.kg-arch-clickable {
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-arch-clickable:hover {
+  transform: scale(1.05);
+}
+
+.kg-arch-clickable:hover .kg-float-emblem {
+  transform: translateY(-26px) scale(1.22) rotateY(180deg);
+}
+
+.kg-retry-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  margin-left: 5px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 1px 5px;
+  border-radius: 6px;
+  transition: transform 0.3s;
+}
+
+.kg-arch-clickable:hover .kg-retry-tag {
+  transform: rotate(180deg);
+}
+
+/* Finish Destination Landmark (Kölner Dom Gate) */
+.kg-finish {
+  position: absolute;
+  bottom: 22vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 3;
+}
+
+.kg-dom-plaza {
+  background: linear-gradient(180deg, #ffb703 0%, #fb8500 100%);
+  color: #1a1a2e;
+  padding: 8px 18px;
+  border-radius: 16px;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: 0 6px 20px rgba(251, 133, 0, 0.4);
+  border: 3px solid #ffe8a1;
+  text-align: center;
+}
+
+.kg-dom-spires {
+  font-size: 64px;
+  line-height: 1;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+}
+
+/* ----------------------------------------------------
+   CINEMATIC JOURNEY HUD & MINIMAP
+   ---------------------------------------------------- */
+.kg-hud {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  z-index: 10;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kg-hud-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.kg-back {
+  color: #d90429;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.kg-back:hover {
+  background: rgba(217, 4, 41, 0.08);
+}
+
+.kg-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.kg-title strong {
+  font-size: 17px;
+  color: #1a1512;
+  letter-spacing: 0.5px;
+}
+
+.kg-title span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8d7b68;
+}
+
+.kg-hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kg-retry-btn {
+  border: 1.5px solid #d4c5b9;
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 12px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a3e35;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.kg-retry-btn:hover {
+  border-color: #e63946;
+  background: #fff8f8;
+  color: #d90429;
+}
+
+.kg-audio-btn {
+  border: 1.5px solid #d4c5b9;
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 11px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4a3e35;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s;
+}
+
+.kg-audio-btn:hover {
+  border-color: #d90429;
+  background: #fffaf0;
+}
+
+.kg-bag {
+  border: 1.5px solid #f4a261;
+  background: linear-gradient(180deg, #fff 0%, #fff7ed 100%);
+  border-radius: 999px;
+  padding: 5px 14px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #9c4221;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(244, 162, 97, 0.2);
+}
+
+.kg-bag b {
+  background: #f4a261;
+  color: #fff;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* Landmark Milestone Minimap */
+.kg-minimap {
+  position: relative;
+  width: 100%;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  margin-top: 2px;
+}
+
+.kg-minimap-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: #e9ecef;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.kg-minimap-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff9f1c 0%, #e63946 50%, #7209b7 100%);
+  transform-origin: left;
+  transform: scaleX(0);
+  will-change: transform;
+  border-radius: 999px;
+}
+
+.kg-minimap-walker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  line-height: 1;
+  z-index: 2;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+.kg-minimap-node {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #adb5bd;
+  border: 2px solid #fff;
+  z-index: 1;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.kg-minimap-node.is-done {
+  background: #2a9d8f;
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+.kg-minimap-node.is-current {
+  background: #e63946;
+  transform: translate(-50%, -50%) scale(1.4);
+  box-shadow: 0 0 6px rgba(230, 57, 70, 0.8);
+}
+
+/* Current Location Banner */
+.kg-loc-banner {
+  position: absolute;
+  top: 104px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  background: rgba(30, 25, 20, 0.88);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 6px 18px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+
+.kg-loc-banner span {
+  color: #ffd166;
+  font-weight: 700;
+}
+
+/* Floating Scroll Hint & Toast Notifications */
+.kg-hint {
+  position: absolute;
+  bottom: 2.5vh;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  color: #fff;
+  background: rgba(18, 14, 12, 0.7);
+  backdrop-filter: blur(6px);
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.kg-toast {
+  position: absolute;
+  top: 156px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  background: linear-gradient(135deg, #1f1b24 0%, #352840 100%);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border: 1.5px solid rgba(255, 215, 0, 0.4);
+  animation: kg-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes kg-pop {
+  from { opacity: 0; transform: translate(-50%, -12px) scale(0.9); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+.kg-finish-banner {
+  position: absolute;
+  inset: auto 0 10vh 0;
+  margin: auto;
+  width: fit-content;
+  max-width: 90vw;
+  z-index: 12;
+  background: #fff;
+  border: 3px solid #e63946;
+  border-radius: 22px;
+  padding: 20px 32px;
+  font-size: 20px;
+  font-weight: 800;
+  box-shadow: 0 12px 35px rgba(230, 57, 70, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  animation: kg-pop 0.4s ease-out;
+  text-align: center;
+}
+
+.kg-finish-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.kg-btn-retry {
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 2px solid #cbd5e1;
+  padding: 8px 18px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kg-btn-retry:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.kg-finish-banner a {
+  background: #e63946;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  transition: opacity 0.2s;
+}
+
+.kg-finish-banner a:hover {
+  opacity: 0.9;
+}
+
+/* Modals & Overlays */
+.kg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(18, 14, 12, 0.65);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.kg-card {
+  width: min(580px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  background: #fffdfa;
+  border: 3px solid #f4a261;
+  border-radius: 22px;
+  padding: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+}
+
+.kg-boss {
+  border-color: #ffd166;
+  background: #fffdf5;
+}
+
+.kg-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 2px solid #fae8d8;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.kg-card h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #2b2118;
+}
+
+.kg-step {
+  color: #8d7b68;
+  font-size: 13px;
+  font-weight: 600;
+  margin: 6px 0;
+}
+
+.kg-q {
+  font-size: 21px;
+  font-weight: 700;
+  color: #1a1512;
+  margin: 10px 0 16px;
+  line-height: 1.35;
+}
+
+.kg-options {
+  display: grid;
+  gap: 12px;
+}
+
+.kg-opt {
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 2px solid #e8ded4;
+  background: #fff;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.kg-opt:hover:not(:disabled) {
+  border-color: #e63946;
+  background: #fffbfb;
+  transform: translateY(-1px);
+}
+
+.kg-opt kbd {
+  opacity: 0.5;
+  margin-right: 8px;
+}
+
+.kg-ok {
+  border-color: #2a9d8f !important;
+  background: #e8f7f5 !important;
+  color: #155d55 !important;
+}
+
+.kg-bad {
+  border-color: #e63946 !important;
+  background: #fdeced !important;
+  color: #8c0c1b !important;
+  animation: kg-shake 0.35s ease;
+}
+
+.kg-sel {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+@keyframes kg-shake {
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+.kg-match {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.kg-match > div {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.kg-slots {
+  min-height: 60px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px;
+  border: 2px dashed #e8ded4;
+  border-radius: 14px;
+  margin-bottom: 14px;
+  background: #fff;
+}
+
+.kg-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.kg-chip {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 2px solid #e8ded4;
+  background: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s;
+}
+
+.kg-chip:hover {
+  transform: translateY(-2px);
+}
+
+.kg-muted {
+  color: #b39b86;
+}
+
+.kg-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 22px;
+  border: 0;
+  border-radius: 14px;
+  background: #e63946;
+  color: #fff;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 800;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.kg-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.kg-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.kg-link {
+  display: block;
+  margin: 16px auto 0;
+  background: none;
+  border: 0;
+  color: #8d7b68;
+  cursor: pointer;
+  text-decoration: underline;
+  font: inherit;
+  font-weight: 600;
+}
+
+.kg-words {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: grid;
+  gap: 8px;
+  max-height: 52vh;
+  overflow: auto;
+}
+
+.kg-words li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f2e9e1;
+  padding: 8px 6px;
+  font-size: 15px;
+}
+
+.kg-words li b {
+  color: #9c4221;
+}
+
+/* ----------------------------------------------------
+   VEHICLES & WHEEL ANIMATIONS
+   ---------------------------------------------------- */
+.kg-on-wheels .kg-traveler-shadow {
+  width: 90px;
+  height: 14px;
+}
+
+.kg-walking .kg-wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: kg-wheel-spin 0.28s linear infinite;
+}
+
+@keyframes kg-wheel-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.kg-speed-lines {
+  position: absolute;
+  left: -24px;
+  bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  pointer-events: none;
+}
+
+.kg-speed-lines i {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 2px;
+  animation: kg-speed-dash 0.25s linear infinite;
+}
+
+.kg-speed-lines i:nth-child(1) { width: 22px; }
+.kg-speed-lines i:nth-child(2) { width: 34px; animation-delay: 0.08s; }
+.kg-speed-lines i:nth-child(3) { width: 18px; animation-delay: 0.16s; }
+
+@keyframes kg-speed-dash {
+  0% { transform: translateX(0); opacity: 0.9; }
+  100% { transform: translateX(-28px); opacity: 0; }
+}
+
+/* ----------------------------------------------------
+   ROAD SURPRISE CHESTS (MYSTERY BOXES) 🎁
+   ---------------------------------------------------- */
+.kg-chest {
+  position: absolute;
+  bottom: 24vh;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 4;
+  transition: transform 0.3s;
+}
+
+.kg-chest:hover {
+  transform: translateX(-50%) scale(1.15);
+}
+
+.kg-chest-box {
+  font-size: 50px;
+  line-height: 1;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.35));
+  animation: kg-chest-bounce 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+.kg-chest-halo {
+  position: absolute;
+  bottom: 18px;
+  width: 48px;
+  height: 14px;
+  background: radial-gradient(ellipse, rgba(255, 215, 0, 0.7) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(4px);
+  animation: kg-halo-breathe 2.2s ease-in-out infinite alternate;
+}
+
+.kg-chest-label {
+  font-size: 12px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ffbe0b 0%, #fb5607 100%);
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(251, 86, 7, 0.35);
+  border: 1.5px solid #fff;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.kg-chest-opened {
+  opacity: 0.35;
+  filter: grayscale(0.8);
+  pointer-events: none;
+}
+
+@keyframes kg-chest-bounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-16px) scale(1.12) rotate(-5deg); }
+}
+
+/* ----------------------------------------------------
+   HUD COIN WALLET PILL & FLYING DELTA ANIMATION
+   ---------------------------------------------------- */
+.kg-coin-wallet-pill {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #fff9e6 0%, #fff1b8 100%);
+  border: 2px solid #ffd166;
+  box-shadow: 0 2px 10px rgba(255, 209, 102, 0.45);
+  padding: 4px 14px;
+  border-radius: 999px;
+  transition: transform 0.2s;
+}
+
+.kg-coin-wallet-pill:hover {
+  transform: translateY(-1px);
+}
+
+.kg-coin-wallet-icon {
+  font-size: 19px;
+  line-height: 1;
+  animation: kg-coin-wiggle 3s ease-in-out infinite;
+}
+
+@keyframes kg-coin-wiggle {
+  0%, 80%, 100% { transform: rotate(0deg); }
+  85% { transform: rotate(-15deg); }
+  95% { transform: rotate(15deg); }
+}
+
+.kg-coin-wallet-num {
+  font-size: 16px;
+  font-weight: 800;
+  color: #723b00;
+  line-height: 1;
+}
+
+.kg-coin-wallet-text {
+  font-size: 11px;
+  font-weight: 700;
+  color: #9c6010;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.kg-coin-delta-float {
+  position: absolute;
+  top: -14px;
+  right: 4px;
+  font-size: 14px;
+  font-weight: 900;
+  pointer-events: none;
+  animation: kg-delta-rise 1.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  white-space: nowrap;
+}
+
+.kg-coin-delta-float.is-plus {
+  color: #16a34a;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+.kg-coin-delta-float.is-minus {
+  color: #dc2626;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+}
+
+@keyframes kg-delta-rise {
+  0% { transform: translateY(0) scale(0.8); opacity: 0; }
+  25% { transform: translateY(-14px) scale(1.25); opacity: 1; }
+  80% { transform: translateY(-24px) scale(1.1); opacity: 0.9; }
+  100% { transform: translateY(-34px) scale(0.9); opacity: 0; }
+}
+
+/* ----------------------------------------------------
+   HUD REWARDS SHOP BUTTON
+   ---------------------------------------------------- */
+.kg-shop-btn {
+  border: 1.5px solid #ffb703;
+  background: linear-gradient(180deg, #fff 0%, #fffbf0 100%);
+  border-radius: 999px;
+  padding: 5px 13px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #b25e00;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 8px rgba(255, 183, 3, 0.25);
+  transition: all 0.2s;
+  position: relative;
+}
+
+.kg-shop-btn:hover {
+  transform: translateY(-1px);
+  border-color: #fb8500;
+  box-shadow: 0 4px 12px rgba(251, 133, 0, 0.35);
+}
+
+.kg-shop-btn b {
+  background: #ffb703;
+  color: #613300;
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11.5px;
+}
+
+.kg-shop-notify-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 9px;
+  height: 9px;
+  background: #2a9d8f;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  animation: kg-pulse-dot 1.5s infinite;
+}
+
+@keyframes kg-pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
+/* ----------------------------------------------------
+   REWARDS & GARAGE SHOP MODAL
+   ---------------------------------------------------- */
+.kg-shop-card {
+  max-width: 680px;
+}
+
+.kg-shop-title h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #1a1512;
+}
+
+.kg-shop-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #7a6858;
+}
+
+.kg-btn-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #8d7b68;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+}
+
+.kg-btn-close:hover {
+  background: #f1e6da;
+}
+
+.kg-shop-wallet {
+  display: flex;
+  gap: 12px;
+  margin: 14px 0 16px;
+  flex-wrap: wrap;
+}
+
+.kg-wallet-pill {
+  flex: 1;
+  min-width: 180px;
+  background: linear-gradient(135deg, #fff9e6 0%, #fff1c2 100%);
+  border: 2px solid #f6d166;
+  border-radius: 16px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kg-wallet-coin {
+  font-size: 32px;
+}
+
+.kg-wallet-pill small,
+.kg-wallet-streak small {
+  display: block;
+  font-size: 11px;
+  color: #8c6b2d;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.kg-wallet-pill strong {
+  font-size: 18px;
+  color: #5c3514;
+}
+
+.kg-wallet-streak {
+  flex: 1;
+  min-width: 180px;
+  background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+  border: 2px solid #fca5a5;
+  border-radius: 16px;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kg-wallet-streak span {
+  font-size: 30px;
+}
+
+.kg-wallet-streak strong {
+  font-size: 16px;
+  color: #b91c1c;
+}
+
+.kg-shop-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #fae8d8;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.kg-shop-tab {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  color: #7a6858;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.kg-shop-tab.is-active {
+  background: #f4a261;
+  color: #fff;
+  box-shadow: 0 3px 8px rgba(244, 162, 97, 0.35);
+}
+
+.kg-shop-grid {
+  display: grid;
+  gap: 12px;
+  max-height: 48vh;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.kg-shop-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #fff;
+  border: 2px solid #eee4db;
+  border-radius: 16px;
+  padding: 12px 16px;
+  transition: all 0.2s;
+}
+
+.kg-shop-item.is-equipped {
+  border-color: #2a9d8f;
+  background: #f0fdf4;
+}
+
+.kg-item-icon {
+  font-size: 38px;
+  width: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.kg-item-info {
+  flex: 1;
+}
+
+.kg-item-info strong {
+  font-size: 16px;
+  color: #2b2118;
+}
+
+.kg-item-info p {
+  margin: 3px 0 0;
+  font-size: 12.5px;
+  color: #7a6858;
+}
+
+.kg-tag-active {
+  background: #2a9d8f;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.kg-btn-equip {
+  background: #f1f5f9;
+  color: #1e293b;
+  border: 1.5px solid #cbd5e1;
+  padding: 7px 16px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.kg-btn-equip:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.kg-btn-buy {
+  background: linear-gradient(135deg, #ffd166 0%, #ffb703 100%);
+  color: #4a2c00;
+  border: 1.5px solid #ffa200;
+  padding: 7px 16px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(255, 183, 3, 0.35);
+  transition: all 0.2s;
+}
+
+.kg-btn-buy:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.kg-btn-buy:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  filter: grayscale(0.5);
+}
+
+.kg-shop-hint {
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #fff8eb;
+  border: 1px dashed #ffd166;
+  border-radius: 12px;
+  font-size: 12.5px;
+  color: #7b4f00;
+}
+
+/* ----------------------------------------------------
+   SURPRISE GIFT OPENED MODAL 🎉
+   ---------------------------------------------------- */
+.kg-surprise-card {
+  text-align: center;
+  max-width: 440px;
+  animation: kg-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 30px 24px;
+}
+
+.kg-surprise-badge {
+  font-size: 72px;
+  line-height: 1;
+  margin-bottom: 10px;
+  animation: kg-chest-bounce 1.8s infinite;
+}
+
+.kg-surprise-coins {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff3cd;
+  border: 2px solid #ffe69c;
+  color: #664d03;
+  font-size: 20px;
+  font-weight: 800;
+  padding: 6px 18px;
+  border-radius: 999px;
+  margin: 12px 0 18px;
+}
+
+.kg-surprise-gift-box {
+  background: #f0fdf4;
+  border: 2px dashed #86efac;
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 18px;
+}
+
+.kg-surprise-gift-box b {
+  font-size: 16px;
+  color: #166534;
+}
+
+.kg-surprise-gift-box p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #15803d;
+}
+
+@media (max-width: 600px) {
+  .kg-loc-banner {
+    top: 118px;
+    font-size: 11px;
+    padding: 4px 12px;
+  }
+  .kg-toast {
+    top: 168px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kg-coin-disc,
+  .kg-traveler.kg-walking .kg-traveler-svg,
+  .kg-leaf {
+    animation: none !important;
+  }
+}
+
+
+/* ----------------------------------------------------
+   50% PASSING REQUIREMENT & OBSTACLE PROGRESSION
+   ---------------------------------------------------- */
+.kg-obstacle-progress-wrap {
+  margin-bottom: 18px;
+  background: #f8f6f0;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid #ebdccb;
+}
+
+.kg-obstacle-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.kg-accuracy-pill {
+  font-size: 12px;
+  background: #fff;
+  border: 1px solid #d4c5b9;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: #5c4b3f;
+}
+
+.kg-accuracy-pill strong {
+  color: #2a9d8f;
+  font-size: 13px;
+}
+
+.kg-obstacle-bar {
+  width: 100%;
+  height: 8px;
+  background: #e2d7ca;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.kg-obstacle-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff9f1c, #2a9d8f);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.kg-req-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #c86b14;
+  background: #fef3e2;
+  border: 1px solid #fbd38d;
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+.kg-close-x {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #8d7b68;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.kg-close-x:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a1512;
+}
+
+.kg-hint-text {
+  font-size: 13px;
+  color: #856404;
+  background: #fff3cd;
+  padding: 6px 12px;
+  border-radius: 8px;
+  margin: 4px 0 12px;
+  display: inline-block;
+}
+
+/* Result Screen Card */
+.kg-result-card {
+  text-align: center;
+  padding: 24px 16px;
+  border-radius: 18px;
+  animation: kg-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-result-success {
+  background: #f0fdf4;
+  border: 2px solid #86efac;
+}
+
+.kg-result-fail {
+  background: #fef2f2;
+  border: 2px solid #fca5a5;
+}
+
+.kg-result-icon {
+  font-size: 54px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+.kg-result-title {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0 0 10px;
+  color: #15803d;
+}
+
+.kg-stars-display {
+  font-size: 28px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.kg-stars-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #d97706;
+}
+
+.kg-result-detail {
+  font-size: 16px;
+  color: #374151;
+  margin: 8px 0 14px;
+}
+
+.kg-reward-badge {
+  display: inline-block;
+  background: #fef3c7;
+  border: 1.5px solid #fcd34d;
+  color: #92400e;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.kg-result-msg {
+  font-size: 14px;
+  color: #4b5563;
+  margin-bottom: 20px;
+}
+
+.kg-fail-notice {
+  background: #fee2e2;
+  border: 1.5px solid #f87171;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin: 14px 0 22px;
+  text-align: left;
+}
+
+.kg-btn-primary {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+  cursor: pointer;
+  border-radius: 14px;
+}
+
+.kg-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.45);
+}
+
+.kg-btn-retry {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #fff;
+  border: none;
+  font-weight: 800;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+  cursor: pointer;
+  border-radius: 14px;
+}
+
+.kg-btn-retry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.45);
+}
+
+
+/* ----------------------------------------------------
+   FLYING VEHICLES ANIMATIONS (Helicopter, Rocket, UFO)
+   ---------------------------------------------------- */
+.kg-flying {
+  animation: kg-fly-hover 2.4s ease-in-out infinite;
+}
+
+@keyframes kg-fly-hover {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+.kg-shadow-flying {
+  animation: kg-shadow-fly 2.4s ease-in-out infinite;
+  opacity: 0.35;
+  width: 90px !important;
+  transform: translateX(-50%) scale(0.85);
+}
+
+@keyframes kg-shadow-fly {
+  0%, 100% {
+    transform: translateX(-50%) scale(0.85);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateX(-50%) scale(0.65);
+    opacity: 0.2;
+  }
+}
+
+/* Helicopter Rotor Spin */
+.kg-heli-rotor {
+  transform-origin: 59px 8px;
+  animation: kg-rotor-spin 0.08s linear infinite;
+}
+
+@keyframes kg-rotor-spin {
+  0% { transform: scaleX(1); }
+  50% { transform: scaleX(-0.8); }
+  100% { transform: scaleX(1); }
+}
+
+.kg-heli-tail-rotor {
+  transform-origin: 0 28px;
+  animation: kg-rotor-spin 0.05s linear infinite;
+}
+
+/* Rocket Thruster Flame */
+.kg-rocket-flame {
+  animation: kg-flame-flicker 0.12s ease-in-out infinite alternate;
+}
+
+@keyframes kg-flame-flicker {
+  0% { transform: translate(8px, 38px) rotate(-90deg) scale(0.9); }
+  100% { transform: translate(8px, 38px) rotate(-90deg) scale(1.25); }
+}
+
+/* UFO Tractor Beam & Lights */
+.kg-ufo-beam {
+  animation: kg-beam-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes kg-beam-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 0.9; }
+}
+
+.kg-ufo-light {
+  animation: kg-ufo-blink 0.6s infinite alternate;
+}
+
+@keyframes kg-ufo-blink {
+  0% { filter: drop-shadow(0 0 1px #fff); opacity: 0.6; }
+  100% { filter: drop-shadow(0 0 5px #06b6d4); opacity: 1; }
+}
+
+/* Girl Hair Animation */
+.kg-walking .kg-girl-hair-back {
+  animation: kg-hair-bounce 0.4s ease-in-out infinite alternate;
+  transform-origin: 36px 32px;
+}
+
+@keyframes kg-hair-bounce {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(10deg); }
+}
+
+/* ----------------------------------------------------
+   AVATAR / BODY BUILDER STYLES
+   ---------------------------------------------------- */
+.kg-avatar-builder {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.kg-builder-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.kg-builder-label {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #2b2118;
+}
+
+.kg-gender-toggle-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.kg-gender-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 18px 12px;
+  background: #fff;
+  border: 2.5px solid #e2d7ca;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-gender-card:hover {
+  transform: translateY(-3px);
+  border-color: #ff9f1c;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.kg-gender-card.is-selected {
+  border-color: #2a9d8f;
+  background: #f0fdfa;
+  box-shadow: 0 8px 22px rgba(42, 157, 143, 0.25);
+  transform: scale(1.02);
+}
+
+.kg-gender-icon {
+  font-size: 44px;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.kg-gender-card strong {
+  font-size: 16px;
+  color: #1e1e1e;
+  margin-bottom: 4px;
+}
+
+.kg-gender-card small {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Color Palettes (Skin tone & Hair) */
+.kg-color-palette {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.kg-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  font-weight: 800;
+  color: #111;
+  transition: all 0.2s;
+}
+
+.kg-swatch:hover {
+  transform: scale(1.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.kg-swatch.is-active {
+  transform: scale(1.2);
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px #2a9d8f;
+}
+
+.kg-avatar-preview-box {
+  background: #eff6ff;
+  border: 1.5px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 12px 16px;
+}
+
+.kg-avatar-preview-box p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #1e40af;
+}
+
+/* Filter Bar for Outfits */
+.kg-filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.kg-filter-pill {
+  background: #f3f4f6;
+  border: 1.5px solid #e5e7eb;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.kg-filter-pill:hover {
+  background: #e5e7eb;
+}
+
+.kg-filter-pill.is-active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.kg-speed-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #d97706;
+  background: #fef3c7;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #fcd34d;
+}
+
+.kg-item-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #4f46e5;
+  background: #e0e7ff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #c7d2fe;
+}
