@@ -10,26 +10,159 @@ import {
 } from "@/lib/audio";
 
 /* =========================================================================
-   1. MINI-GAME 1: GLÜCKSRAD (LUCKY SPINNING WHEEL) 🎡
+   1. MINI-GAME 1: GLÜCKSRAD (LUCKY WHEEL + GERMAN LEARNING CHALLENGE) 🎡
+   Every spin lands on a category & stakes, but coins MUST be earned by
+   solving the German vocabulary challenge!
    ========================================================================= */
 const WHEEL_SEGMENTS = [
-  { label: "+50 🪙", coins: 50, color: "#e63946", text: "#fff" },
-  { label: "0 🪙 (Niete)", coins: 0, color: "#64748b", text: "#fff" },
-  { label: "+100 🪙", coins: 100, color: "#ffd166", text: "#1a1512", isJackpot: true },
-  { label: "+20 🪙", coins: 20, color: "#2a9d8f", text: "#fff" },
-  { label: "+35 🪙", coins: 35, color: "#457b9d", text: "#fff" },
-  { label: "0 🪙 (Niete)", coins: 0, color: "#475569", text: "#fff" },
-  { label: "+75 🪙", coins: 75, color: "#8338ec", text: "#fff" },
-  { label: "+15 🪙", coins: 15, color: "#06d6a0", text: "#1a1512" },
+  {
+    label: "🍎 Essen\n+50 🪙",
+    category: "🍎 Essen & Trinken",
+    coins: 50,
+    color: "#e63946",
+    text: "#fff",
+    question: {
+      word: "das Brot",
+      sentence: "Ich esse frisches Brot zum Frühstück.",
+      prompt: "Was bedeutet das deutsche Wort 'das Brot'?",
+      options: [
+        { text: "Bread (रोटी)", correct: true },
+        { text: "Water (पानी)", correct: false },
+        { text: "Table (मेज)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "🦁 Tiere\n+30 🪙",
+    category: "🦁 Tiere (Animals)",
+    coins: 30,
+    color: "#f4a261",
+    text: "#2b2118",
+    question: {
+      word: "die Katze",
+      sentence: "Die Katze schläft auf dem Sofa.",
+      prompt: "Was bedeutet das deutsche Wort 'die Katze'?",
+      options: [
+        { text: "Dog (कुत्ता)", correct: false },
+        { text: "Cat (बिल्ली)", correct: true },
+        { text: "Bird (चिड़िया)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "👑 DOM\n+100 🪙",
+    category: "👑 Kölner Dom Spezial",
+    coins: 100,
+    color: "#ffd166",
+    text: "#1a1512",
+    isJackpot: true,
+    question: {
+      word: "der Kölner Dom",
+      sentence: "Der Kölner Dom ist eine gotische Kathedrale.",
+      prompt: "Was ist der berühmte 'Kölner Dom'?",
+      options: [
+        { text: "Große gotische Kathedrale (Cathedral Church)", correct: true },
+        { text: "Ein riesiger Bahnhof (Railway Station)", correct: false },
+        { text: "Ein Schloss am Rhein (Castle)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "💬 Begrüßung\n+25 🪙",
+    category: "💬 Begrüßung (Greetings)",
+    coins: 25,
+    color: "#2a9d8f",
+    text: "#fff",
+    question: {
+      word: "Guten Morgen",
+      sentence: "Guten Morgen! Wie geht es dir heute?",
+      prompt: "Was bedeutet die deutsche Begrüßung 'Guten Morgen'?",
+      options: [
+        { text: "Am Abend zum Schlafen (Good night)", correct: false },
+        { text: "Am Morgen zur Begrüßung (Good morning / शुभ प्रभात)", correct: true },
+        { text: "Beim Abschied (Goodbye)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "🚗 Reise\n+40 🪙",
+    category: "🚗 Unterwegs (Travel)",
+    coins: 40,
+    color: "#457b9d",
+    text: "#fff",
+    question: {
+      word: "das Fahrrad",
+      sentence: "Ich fahre gerne mit dem Fahrrad am Rhein.",
+      prompt: "Was bedeutet das Wort 'das Fahrrad'?",
+      options: [
+        { text: "Bicycle (साइकिल)", correct: true },
+        { text: "Airplane (हवाई जहाज़)", correct: false },
+        { text: "Train (ट्रेन)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "🎨 Farben\n+35 🪙",
+    category: "🎨 Farben (Colors)",
+    coins: 35,
+    color: "#e76f51",
+    text: "#fff",
+    question: {
+      word: "Blau",
+      sentence: "Der Rhein und der Himmel sind blau.",
+      prompt: "Welche Farbe ist 'Blau'?",
+      options: [
+        { text: "Green (हरा)", correct: false },
+        { text: "Blue (नीला)", correct: true },
+        { text: "Yellow (पीला)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "⭐ Höflich\n+75 🪙",
+    category: "⭐ Höflichkeit & Redemittel",
+    coins: 75,
+    color: "#8338ec",
+    text: "#fff",
+    question: {
+      word: "Danke schön",
+      sentence: "Danke schön für das leckere Essen!",
+      prompt: "Was bedeutet der Ausdruck 'Danke schön'?",
+      options: [
+        { text: "Thank you very much (बहुत धन्यवाद)", correct: true },
+        { text: "Please / You're welcome (कृपया)", correct: false },
+        { text: "I am sorry (माफ़ कीजिए)", correct: false },
+      ],
+    },
+  },
+  {
+    label: "🏠 Alltag\n+45 🪙",
+    category: "🏠 Stadt & Alltag",
+    coins: 45,
+    color: "#06d6a0",
+    text: "#1a1512",
+    question: {
+      word: "das Wasser",
+      sentence: "Bitte ein Glas kaltes Wasser.",
+      prompt: "Was bedeutet das Wort 'das Wasser'?",
+      options: [
+        { text: "Tea (चाय)", correct: false },
+        { text: "Water (पानी)", correct: true },
+        { text: "Juice (जूस)", correct: false },
+      ],
+    },
+  },
 ];
 
 export function LuckyWheel({ onFinish }) {
   const [spinning, setSpinning] = useState(false);
   const [angle, setAngle] = useState(0);
-  const [wonPrize, setWonPrize] = useState(null);
+  const [wonSegment, setWonSegment] = useState(null); // The landed segment
+  const [selectedOpt, setSelectedOpt] = useState(null); // player choice
+  const [answered, setAnswered] = useState(false);
 
   function spinWheel() {
-    if (spinning || wonPrize) return;
+    if (spinning || wonSegment) return;
     setSpinning(true);
 
     // Random pick
@@ -44,91 +177,172 @@ export function LuckyWheel({ onFinish }) {
 
     setTimeout(() => {
       setSpinning(false);
-      const prize = WHEEL_SEGMENTS[winIdx];
-      setWonPrize(prize);
-      if (prize.coins > 0) {
-        playPassSound();
-        playCoinSound();
-      } else {
-        playWrongSound();
-      }
+      const segment = WHEEL_SEGMENTS[winIdx];
+      setWonSegment(segment);
+      speakGermanWord(segment.question.word);
     }, 4200);
+  }
+
+  function handlePickOption(opt) {
+    if (answered) return;
+    setSelectedOpt(opt);
+    setAnswered(true);
+
+    if (opt.correct) {
+      playCorrectSound();
+      playPassSound();
+    } else {
+      playWrongSound();
+    }
   }
 
   return (
     <div className="kg-minigame-card kg-wheel-wrap">
       <div className="kg-minigame-badge">🎡 Bonus-Spiel 1 von 3</div>
-      <h2 className="kg-minigame-title">Kölner Glücksrad</h2>
+      <h2 className="kg-minigame-title">Kölner Vokabel-Glücksrad</h2>
       <p className="kg-minigame-desc">
-        Drehe am Glücksrad und gewinne bis zu <strong>100 Goldmünzen</strong> für deine Garage!
+        Drehe am Rad, lerne die deutsche Vokabel und gewinne bis zu{" "}
+        <strong>100 Goldmünzen</strong> für deine Garage!
       </p>
 
-      <div className="kg-wheel-stage">
-        {/* Top Pointer Needle */}
-        <div className="kg-wheel-needle" />
+      {/* WHEEL STAGE (Shown when not yet landed) */}
+      {!wonSegment && (
+        <>
+          <div className="kg-wheel-stage">
+            {/* Top Pointer Needle */}
+            <div className="kg-wheel-needle" />
 
-        {/* Rotating Wheel Circle */}
-        <div
-          className="kg-wheel-circle"
-          style={{
-            transform: `rotate(${angle}deg)`,
-            transition: spinning ? "transform 4.2s cubic-bezier(0.15, 0.9, 0.25, 1)" : "none",
-          }}
-        >
-          {WHEEL_SEGMENTS.map((seg, idx) => {
-            const rot = (360 / WHEEL_SEGMENTS.length) * idx;
-            return (
-              <div
-                key={idx}
-                className="kg-wheel-slice"
-                style={{
-                  transform: `rotate(${rot}deg)`,
-                  backgroundColor: seg.color,
-                  color: seg.text,
-                }}
-              >
-                <span className="kg-slice-text">{seg.label}</span>
+            {/* Rotating Wheel Circle */}
+            <div
+              className="kg-wheel-circle"
+              style={{
+                transform: `rotate(${angle}deg)`,
+                transition: spinning ? "transform 4.2s cubic-bezier(0.15, 0.9, 0.25, 1)" : "none",
+              }}
+            >
+              {WHEEL_SEGMENTS.map((seg, idx) => {
+                const rot = (360 / WHEEL_SEGMENTS.length) * idx;
+                return (
+                  <div
+                    key={idx}
+                    className="kg-wheel-slice"
+                    style={{
+                      transform: `rotate(${rot}deg)`,
+                      backgroundColor: seg.color,
+                      color: seg.text,
+                    }}
+                  >
+                    <span className="kg-slice-text" style={{ whiteSpace: "pre-line", fontSize: 11 }}>
+                      {seg.label}
+                    </span>
+                  </div>
+                );
+              })}
+              {/* Wheel Center Button */}
+              <div className="kg-wheel-center" onClick={spinWheel}>
+                <span>{spinning ? "..." : "DREHEN"}</span>
               </div>
-            );
-          })}
-          {/* Wheel Center Button */}
-          <div className="kg-wheel-center" onClick={spinWheel}>
-            <span>{spinning ? "..." : "DREHEN"}</span>
+            </div>
           </div>
-        </div>
-      </div>
 
-      {wonPrize ? (
-        <div className="kg-prize-announce">
-          {wonPrize.coins > 0 ? (
-            <>
-              <h3>🎉 Glückwunsch!</h3>
-              <p>
-                Du hast <strong>{wonPrize.label}</strong> gewonnen!
-              </p>
-              <button className="kg-btn kg-btn-primary" onClick={() => onFinish(wonPrize.coins)}>
-                {wonPrize.coins} Münzen einsammeln ➔
-              </button>
-            </>
-          ) : (
-            <>
-              <h3>😢 Schade!</h3>
-              <p>Das Rad ist auf <strong>Niete (0 Münzen)</strong> gelandet!</p>
-              <button className="kg-btn" onClick={() => onFinish(0)}>
-                Weitergehen (0 Münzen) ➔
-              </button>
-            </>
+          <button
+            className="kg-btn kg-btn-primary"
+            onClick={spinWheel}
+            disabled={spinning}
+            style={{ marginTop: 14 }}
+          >
+            {spinning ? "Rad dreht sich…" : "🎡 Jetzt am Rad drehen!"}
+          </button>
+        </>
+      )}
+
+      {/* GERMAN LEARNING CHALLENGE CARD (Shown when wheel lands) */}
+      {wonSegment && (
+        <div className="kg-wheel-challenge-card">
+          <div className="kg-wheel-landed-badge" style={{ backgroundColor: wonSegment.color, color: wonSegment.text }}>
+            🎯 Gedreht: {wonSegment.category} · <strong>+{wonSegment.coins} 🪙 Einsatz</strong>
+          </div>
+
+          <div className="kg-wheel-prompt-info">
+            Beantworte diese Frage richtig, um deine <strong>{wonSegment.coins} Goldmünzen</strong> freizuschalten!
+          </div>
+
+          {/* German Word Highlight Box with Speaker */}
+          <div className="kg-wheel-word-box">
+            <div>
+              <div className="kg-wheel-word-title">{wonSegment.question.word}</div>
+              <div className="kg-wheel-word-sub">„{wonSegment.question.sentence}“</div>
+            </div>
+            <button
+              className="kg-audio-btn-round"
+              onClick={() => speakGermanWord(wonSegment.question.word)}
+              title="Aussprache anhören (Hear pronunciation)"
+            >
+              🔊
+            </button>
+          </div>
+
+          <div className="kg-wheel-q-text">{wonSegment.question.prompt}</div>
+
+          {/* 3 Interactive Choices */}
+          <div className="kg-wheel-options">
+            {wonSegment.question.options.map((opt, oIdx) => {
+              let btnClass = "kg-wheel-opt-btn";
+              if (answered) {
+                if (opt.correct) btnClass += " is-correct";
+                else if (selectedOpt === opt) btnClass += " is-wrong";
+                else btnClass += " is-dimmed";
+              }
+              return (
+                <button
+                  key={oIdx}
+                  className={btnClass}
+                  onClick={() => handlePickOption(opt)}
+                  disabled={answered}
+                >
+                  <span className="kg-wheel-opt-marker">
+                    {answered ? (opt.correct ? "✅" : selectedOpt === opt ? "❌" : "○") : `${String.fromCharCode(65 + oIdx)}`}
+                  </span>
+                  <span>{opt.text}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Answer Outcome */}
+          {answered && (
+            <div className="kg-wheel-outcome-box">
+              {selectedOpt?.correct ? (
+                <div className="kg-wheel-outcome-success">
+                  <h4>🎉 Ausgezeichnet! Richtig gelöst!</h4>
+                  <p>
+                    Du hast das Wort <strong>„{wonSegment.question.word}“</strong> richtig verstanden und deine Belohnung freigeschaltet!
+                  </p>
+                  <div className="kg-reward-badge" style={{ marginBottom: 12 }}>
+                    🪙 +{wonSegment.coins} Goldmünzen gewonnen!
+                  </div>
+                  <button className="kg-btn kg-btn-primary" onClick={() => onFinish(wonSegment.coins)}>
+                    {wonSegment.coins} Münzen einsammeln ➔
+                  </button>
+                </div>
+              ) : (
+                <div className="kg-wheel-outcome-fail">
+                  <h4>❌ Leider nicht ganz richtig!</h4>
+                  <p>
+                    Die richtige Bedeutung von <strong>„{wonSegment.question.word}“</strong> ist:{" "}
+                    <strong>{wonSegment.question.options.find((o) => o.correct)?.text}</strong>.
+                  </p>
+                  <div className="kg-reward-badge" style={{ background: "#fef2f2", color: "#b91c1c", border: "1px solid #fecaca", marginBottom: 12 }}>
+                    0 Münzen · Fleißig weiterlernen!
+                  </div>
+                  <button className="kg-btn" onClick={() => onFinish(0)}>
+                    Weitergehen (0 Münzen) ➔
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
-      ) : (
-        <button
-          className="kg-btn kg-btn-primary"
-          onClick={spinWheel}
-          disabled={spinning}
-          style={{ marginTop: 20 }}
-        >
-          {spinning ? "Rad dreht sich…" : "🎡 Jetzt am Rad drehen!"}
-        </button>
       )}
     </div>
   );
