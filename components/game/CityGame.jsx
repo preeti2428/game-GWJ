@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Obstacle from "./Obstacle";
 import Traveler from "./Traveler";
 import ShopModal, { VEHICLE_LIST, SUIT_LIST } from "./ShopModal";
+import CrosswordPuzzle from "./CrosswordPuzzle";
 import { FAR_SKYLINE, MID_STREET, NEAR_STREET } from "@/lib/scenery";
 import {
   playCoinSound,
@@ -20,14 +21,15 @@ import "./game.css";
 
 const TRAVEL_PER_STOP = 90; // vw: distance between stops
 
-// Surprise Mystery Chests along the journey
+// Surprise Mystery Chests along the journey (Every 3 stops)
 const SURPRISE_CHESTS = [
   {
     id: "chest-1",
     p: 0.35,
     coins: 50,
+    puzzleIndex: 0,
     giftVeh: "skateboard",
-    title: "🎁 Überraschungs-Schatzkiste!",
+    title: "🎁 Überraschungs-Event 1: Rhein-Puzzle!",
     giftName: "Street Pro Skateboard 🛹",
     giftDesc: "Du hast ein Pro-Skateboard gefunden! +50 Münzen erhalten!",
   },
@@ -35,8 +37,9 @@ const SURPRISE_CHESTS = [
     id: "chest-2",
     p: 0.72,
     coins: 100,
+    puzzleIndex: 1,
     giftSuit: "boy_karneval",
-    title: "🎉 Kölner Festkiste!",
+    title: "🎉 Überraschungs-Event 2: Altstadt-Kreuzwort!",
     giftName: "Kölner Karneval Prunk 🎭",
     giftDesc: "Kölle Alaaf! Traditionelles Fest-Outfit +100 Münzen freigeschaltet!",
   },
@@ -44,8 +47,9 @@ const SURPRISE_CHESTS = [
     id: "chest-3",
     p: 0.88,
     coins: 250,
+    puzzleIndex: 2,
     giftVeh: "kickscooter",
-    title: "⭐ Kölner VIP Dom-Kiste!",
+    title: "⭐ Überraschungs-Event 3: Dom-Meisterrätsel!",
     giftName: "E-Kickscooter LED 🛴",
     giftDesc: "Meister-Belohnung kurz vor dem Dom! +250 Münzen!",
   },
@@ -114,6 +118,7 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
   const [openedChests, setOpenedChests] = useState(new Set());
   const [shopOpen, setShopOpen] = useState(false);
   const [surpriseModal, setSurpriseModal] = useState(null);
+  const [puzzleState, setPuzzleState] = useState(null); // { puzzleIndex, reward }
 
   const deltaTimer = useRef(null);
   function triggerCoinDelta(text, type) {
@@ -765,6 +770,14 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
                 {coinsWallet >= 6 && <span className="kg-shop-notify-dot" />}
               </button>
               <button
+                className="kg-shop-btn"
+                style={{ background: "#eff6ff", borderColor: "#93c5fd", color: "#1d4ed8" }}
+                onClick={() => setPuzzleState({ puzzleIndex: 0, reward: 80 })}
+                title="Kölner Kreuzwort-Puzzle spielen (+Bonus Münzen!)"
+              >
+                <span>🧩 Rätsel</span>
+              </button>
+              <button
                 className="kg-retry-btn"
                 onClick={handleResetJourney}
                 title="Ganze Reise neu starten (Restart whole journey)"
@@ -904,7 +917,7 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
         />
       )}
 
-      {/* Surprise Mystery Chest Opened Modal 🎉 */}
+      {/* Surprise Mystery Event Modal 🎉 */}
       {surpriseModal && (
         <div
           className="kg-overlay"
@@ -924,11 +937,71 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
               </div>
             )}
 
-            <button className="kg-btn" onClick={() => setSurpriseModal(null)}>
-              Weiterfahren & Erkunden 🚀
-            </button>
+            {/* Crossword Puzzle Challenge Card */}
+            <div
+              style={{
+                background: "#eff6ff",
+                border: "2px dashed #93c5fd",
+                borderRadius: "16px",
+                padding: "14px",
+                margin: "12px 0 18px",
+                textAlign: "left",
+              }}
+            >
+              <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                <span style={{ fontSize: "32px" }}>🧩</span>
+                <div>
+                  <strong style={{ color: "#1e40af", fontSize: "15px", display: "block" }}>
+                    Bonus-Minigame: Kölner Kreuzwort-Puzzle!
+                  </strong>
+                  <p style={{ margin: "3px 0 0", fontSize: "12.5px", color: "#2563eb" }}>
+                    Löse das Wörter-Gitter aus deinen bisher gelernten Vokabeln und sichere dir extra Jackpot-Münzen!
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              <button
+                className="kg-btn kg-btn-primary"
+                onClick={() => {
+                  const pIdx = surpriseModal.puzzleIndex ?? 0;
+                  setSurpriseModal(null);
+                  setPuzzleState({ puzzleIndex: pIdx, reward: surpriseModal.coins });
+                }}
+              >
+                🧩 Kreuzworträtsel spielen (+Bonus 🪙)
+              </button>
+              <button
+                className="kg-btn"
+                style={{ background: "#f1f5f9", color: "#334155" }}
+                onClick={() => setSurpriseModal(null)}
+              >
+                ➔ Jetzt weitergehen (Später spielen)
+              </button>
+            </div>
           </div>
         </div>
+      )}
+
+      {/* Interactive Crossword Word Puzzle Modal 🧩 */}
+      {puzzleState && (
+        <CrosswordPuzzle
+          puzzleIndex={puzzleState.puzzleIndex}
+          onComplete={(coinsWon) => {
+            triggerCoinDelta(`+${coinsWon} 🪙`, "plus");
+            setCoinsWallet((prev) => {
+              const nv = prev + coinsWon;
+              try {
+                localStorage.setItem("koeln_coin_wallet", String(nv));
+              } catch {}
+              return nv;
+            });
+            setToast(`🎉 Kreuzworträtsel gemeistert! +${coinsWon} 🪙 Jackpot erhalten!`);
+            setPuzzleState(null);
+          }}
+          onClose={() => setPuzzleState(null)}
+        />
       )}
     </div>
   );
