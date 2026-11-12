@@ -603,3 +603,4 @@ export default function SurpriseModal({ eventType, onComplete, onSkip }) {
     </div>
   );
 }
+

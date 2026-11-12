@@ -116,6 +116,7 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
   const [activeEvent, setActiveEvent] = useState(null); // active mini-game { type: 'wheel'|'photo'|'crossword', ... }
   const [eventInvitation, setEventInvitation] = useState(null); // optional prompt to play or skip
   const [shopOpen, setShopOpen] = useState(false);
+  const [devMode, setDevMode] = useState(false); // 🧪 Test Mode / Dev Mode toolbar toggle
 
   const deltaTimer = useRef(null);
   function triggerCoinDelta(text, type) {
@@ -499,6 +500,36 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
     setActiveEvent(null);
   }
 
+  // 🧪 Dev & Test Mode Helpers (Schnell-Testen)
+  function handleDevUnlockAll() {
+    const allIds = new Set(stops.map((s) => s.id));
+    doneRef.current = allIds;
+    setDone(allIds);
+    setToast("🔓 Test: Alle 10 Tore geöffnet! Du kannst frei durch ganz Köln scrollen!");
+  }
+
+  function handleDevAddCoins(amount = 500) {
+    setCoinsWallet((prev) => {
+      const nv = prev + amount;
+      try {
+        localStorage.setItem("koeln_coin_wallet", String(nv));
+      } catch {}
+      return nv;
+    });
+    triggerCoinDelta(`+${amount} 🪙`, "plus");
+    setToast(`🪙 Test: +${amount} Münzen gutgeschrieben!`);
+  }
+
+  function handleDevTeleport(targetP) {
+    if (stRef.current) {
+      const { start, end } = stRef.current;
+      window.scrollTo({
+        top: start + targetP * (end - start),
+        behavior: "smooth",
+      });
+    }
+  }
+
   // Restart the whole journey from the beginning
   function handleResetJourney() {
     if (typeof window !== "undefined") {
@@ -514,13 +545,13 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
 
       bagKeys.current = new Set();
       setBag([]);
-      const emptyChests = new Set();
-      openedChestsRef.current = emptyChests;
-      setOpenedChests(emptyChests);
+      const emptyEvs = new Set();
+      openedEventsRef.current = emptyEvs;
+      setOpenedEvents(emptyEvs);
 
       try {
         localStorage.removeItem(`wortschatz:${chapterSlug}`);
-        localStorage.removeItem(`koeln_chests:${chapterSlug}`);
+        localStorage.removeItem(`koeln_events:${chapterSlug}`);
       } catch {}
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -717,6 +748,13 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
                 {coinsWallet >= 6 && <span className="kg-shop-notify-dot" />}
               </button>
               <button
+                className={`kg-dev-btn ${devMode ? "is-active" : ""}`}
+                onClick={() => setDevMode(!devMode)}
+                title="🧪 Test-Modus Werkzeuge (Schnell-Testen)"
+              >
+                🧪 Test-Modus
+              </button>
+              <button
                 className="kg-retry-btn"
                 onClick={handleResetJourney}
                 title="Ganze Reise neu starten (Restart whole journey)"
@@ -902,6 +940,41 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
           onComplete={handleCompleteEvent}
           onSkip={() => setActiveEvent(null)}
         />
+      )}
+
+      {/* 🧪 Test-Modus Quick Toolbar (Schnell-Testen) */}
+      {devMode && (
+        <aside className="kg-dev-toolbar" aria-label="Test-Modus Werkzeuge">
+          <div className="kg-dev-head">
+            <strong>🧪 Test-Modus (Schnell-Testen)</strong>
+            <button className="kg-dev-close" onClick={() => setDevMode(false)}>✕</button>
+          </div>
+          <div className="kg-dev-actions">
+            <button className="kg-dev-action" onClick={handleDevUnlockAll}>
+              🔓 Alle 10 Tore öffnen
+            </button>
+            <button className="kg-dev-action" onClick={() => handleDevAddCoins(500)}>
+              🪙 +500 Münzen
+            </button>
+            <button className="kg-dev-action" onClick={() => setActiveEvent(SURPRISE_EVENTS[0])}>
+              🎡 Test: Glücksrad
+            </button>
+            <button className="kg-dev-action" onClick={() => setActiveEvent(SURPRISE_EVENTS[1])}>
+              📸 Test: Foto-Quiz
+            </button>
+            <button className="kg-dev-action" onClick={() => setActiveEvent(SURPRISE_EVENTS[2])}>
+              🧩 Test: Kreuzwort
+            </button>
+          </div>
+          <div className="kg-dev-teleport">
+            <small>📍 Schnell-Teleport:</small>
+            <button onClick={() => handleDevTeleport(0)}>Start</button>
+            <button onClick={() => handleDevTeleport(pos[2])}>Stop 3</button>
+            <button onClick={() => handleDevTeleport(pos[5])}>Stop 6</button>
+            <button onClick={() => handleDevTeleport(pos[8])}>Stop 9</button>
+            <button onClick={() => handleDevTeleport(1)}>Kölner Dom ⛪</button>
+          </div>
+        </aside>
       )}
     </div>
   );

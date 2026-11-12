@@ -407,7 +407,16 @@ export default function Obstacle({ stop, onPass, onClose }) {
         <div className="kg-card-head">
           <div>
             <h2>{stop.kind === "boss" ? "👑 " : ""}{stop.title}</h2>
-            <span className="kg-req-tag">Bedingung: min. 50% zum Öffnen</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4 }}>
+              <span className="kg-req-tag">Bedingung: min. 50% zum Öffnen</span>
+              <button
+                className="kg-dev-cheat-btn"
+                onClick={() => onPass(3)}
+                title="🧪 Test-Modus: Sofort 100% bestehen & Tor öffnen"
+              >
+                ⚡ Test: Auto-Pass
+              </button>
+            </div>
           </div>
           <button className="kg-close-x" onClick={onClose} title="Schließen (Später)">✕</button>
         </div>

@@ -2646,3 +2646,169 @@
   color: #475569;
   border-color: #cbd5e1;
 }
+
+/* ----------------------------------------------------
+   🧪 TEST-MODUS (DEV / GOD MODE TOOLBAR & CHEATS)
+   ---------------------------------------------------- */
+.kg-dev-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fdf2f8;
+  color: #db2777;
+  border: 1.5px dashed #f472b6;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(219, 39, 119, 0.15);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.kg-dev-btn:hover,
+.kg-dev-btn.is-active {
+  background: #db2777;
+  color: #ffffff;
+  border-color: #be185d;
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.35);
+}
+
+.kg-dev-cheat-btn {
+  background: #fdf2f8;
+  color: #db2777;
+  border: 1px dashed #f472b6;
+  font-weight: 800;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kg-dev-cheat-btn:hover {
+  background: #db2777;
+  color: #fff;
+  transform: scale(1.05);
+}
+
+.kg-dev-toolbar {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: rgba(26, 21, 18, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 2px solid #f472b6;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+  border-radius: 18px;
+  padding: 16px;
+  width: min(340px, 90vw);
+  color: #fff;
+  font-family: inherit;
+  animation: kg-dev-slide-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes kg-dev-slide-up {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.kg-dev-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  padding-bottom: 8px;
+}
+
+.kg-dev-head strong {
+  font-size: 14px;
+  color: #fbcfe8;
+}
+
+.kg-dev-close {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.kg-dev-close:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.kg-dev-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kg-dev-action {
+  background: #2b2520;
+  color: #fce7f3;
+  border: 1px solid #4a3e35;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.kg-dev-action:hover {
+  background: #db2777;
+  color: #fff;
+  border-color: #f472b6;
+  transform: translateX(4px);
+}
+
+.kg-dev-teleport {
+  margin-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.kg-dev-teleport small {
+  width: 100%;
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.kg-dev-teleport button {
+  background: #38312a;
+  border: 1px solid #55493f;
+  color: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.kg-dev-teleport button:hover {
+  background: #f472b6;
+  color: #1a1512;
+  border-color: #f472b6;
+}
