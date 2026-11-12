@@ -286,7 +286,6 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
                   JSON.stringify([...openedEventsRef.current])
                 );
               } catch {}
-              playPassSound();
               setEventInvitation(hitEvent);
             }
           },
@@ -478,7 +477,7 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
     setEventInvitation(null);
   }
 
-  function handleCompleteEvent(wonCoins) {
+  function handleCompleteEvent(wonCoins = 0) {
     if (!activeEvent) return;
     const evId = activeEvent.id;
     const nextEvents = new Set(openedEvents);
@@ -488,15 +487,19 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
       localStorage.setItem(`koeln_events:${chapterSlug}`, JSON.stringify([...nextEvents]));
     } catch {}
 
-    setCoinsWallet((prev) => {
-      const nv = prev + wonCoins;
-      try {
-        localStorage.setItem("koeln_coin_wallet", String(nv));
-      } catch {}
-      return nv;
-    });
-    triggerCoinDelta(`+${wonCoins} 🪙`, "plus");
-    setToast(`🎉 +${wonCoins} 🪙 Jackpot gewonnen!`);
+    if (wonCoins > 0) {
+      setCoinsWallet((prev) => {
+        const nv = prev + wonCoins;
+        try {
+          localStorage.setItem("koeln_coin_wallet", String(nv));
+        } catch {}
+        return nv;
+      });
+      triggerCoinDelta(`+${wonCoins} 🪙`, "plus");
+      setToast(`🎉 +${wonCoins} 🪙 gewonnen!`);
+    } else {
+      setToast(`ℹ️ Mini-Spiel beendet.`);
+    }
     setActiveEvent(null);
   }
 

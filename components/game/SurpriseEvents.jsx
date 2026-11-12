@@ -14,13 +14,13 @@ import {
    ========================================================================= */
 const WHEEL_SEGMENTS = [
   { label: "+50 🪙", coins: 50, color: "#e63946", text: "#fff" },
-  { label: "+30 🪙", coins: 30, color: "#f4a261", text: "#2b2118" },
+  { label: "0 🪙 (Niete)", coins: 0, color: "#64748b", text: "#fff" },
   { label: "+100 🪙", coins: 100, color: "#ffd166", text: "#1a1512", isJackpot: true },
-  { label: "+40 🪙", coins: 40, color: "#2a9d8f", text: "#fff" },
-  { label: "+70 🪙", coins: 70, color: "#457b9d", text: "#fff" },
-  { label: "+20 🪙", coins: 20, color: "#e76f51", text: "#fff" },
-  { label: "+80 🪙", coins: 80, color: "#8338ec", text: "#fff" },
-  { label: "+60 🪙", coins: 60, color: "#06d6a0", text: "#1a1512" },
+  { label: "+20 🪙", coins: 20, color: "#2a9d8f", text: "#fff" },
+  { label: "+35 🪙", coins: 35, color: "#457b9d", text: "#fff" },
+  { label: "0 🪙 (Niete)", coins: 0, color: "#475569", text: "#fff" },
+  { label: "+75 🪙", coins: 75, color: "#8338ec", text: "#fff" },
+  { label: "+15 🪙", coins: 15, color: "#06d6a0", text: "#1a1512" },
 ];
 
 export function LuckyWheel({ onFinish }) {
@@ -31,7 +31,6 @@ export function LuckyWheel({ onFinish }) {
   function spinWheel() {
     if (spinning || wonPrize) return;
     setSpinning(true);
-    playCoinSound();
 
     // Random pick
     const winIdx = Math.floor(Math.random() * WHEEL_SEGMENTS.length);
@@ -47,7 +46,12 @@ export function LuckyWheel({ onFinish }) {
       setSpinning(false);
       const prize = WHEEL_SEGMENTS[winIdx];
       setWonPrize(prize);
-      playPassSound();
+      if (prize.coins > 0) {
+        playPassSound();
+        playCoinSound();
+      } else {
+        playWrongSound();
+      }
     }, 4200);
   }
 
@@ -96,13 +100,25 @@ export function LuckyWheel({ onFinish }) {
 
       {wonPrize ? (
         <div className="kg-prize-announce">
-          <h3>🎉 Glückwunsch!</h3>
-          <p>
-            Du hast <strong>{wonPrize.label}</strong> gewonnen!
-          </p>
-          <button className="kg-btn kg-btn-primary" onClick={() => onFinish(wonPrize.coins)}>
-            {wonPrize.coins} Münzen einsammeln ➔
-          </button>
+          {wonPrize.coins > 0 ? (
+            <>
+              <h3>🎉 Glückwunsch!</h3>
+              <p>
+                Du hast <strong>{wonPrize.label}</strong> gewonnen!
+              </p>
+              <button className="kg-btn kg-btn-primary" onClick={() => onFinish(wonPrize.coins)}>
+                {wonPrize.coins} Münzen einsammeln ➔
+              </button>
+            </>
+          ) : (
+            <>
+              <h3>😢 Schade!</h3>
+              <p>Das Rad ist auf <strong>Niete (0 Münzen)</strong> gelandet!</p>
+              <button className="kg-btn" onClick={() => onFinish(0)}>
+                Weitergehen (0 Münzen) ➔
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <button
@@ -119,59 +135,236 @@ export function LuckyWheel({ onFinish }) {
 }
 
 /* =========================================================================
-   2. MINI-GAME 2: FOTO-DETEKTIV (TRUE / FALSE WITH REAL IMAGES) 🖼️
+   2. MINI-GAME 2: FOTO-DETEKTIV (TRUE / FALSE WITH SELF-CONTAINED CRISP ART) 🖼️
    ========================================================================= */
+
+function DomIllustration() {
+  return (
+    <svg viewBox="0 0 400 220" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#3b82f6" />
+          <stop offset="60%" stopColor="#93c5fd" />
+          <stop offset="100%" stopColor="#fef08a" />
+        </linearGradient>
+        <linearGradient id="domGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#1e293b" />
+          <stop offset="100%" stopColor="#0f172a" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="220" fill="url(#skyGrad)" />
+      <circle cx="200" cy="95" r="32" fill="#fbbf24" opacity="0.9" />
+      <rect y="185" width="400" height="35" fill="#0284c7" />
+      <path d="M0 190 Q 100 185, 200 190 T 400 190" stroke="#38bdf8" strokeWidth="2.5" fill="none" opacity="0.7" />
+      {/* Spires */}
+      <polygon points="135,185 155,40 175,185" fill="url(#domGrad)" />
+      <polygon points="152,45 155,16 158,45" fill="#dc2626" />
+      <polygon points="225,185 245,40 265,185" fill="url(#domGrad)" />
+      <polygon points="242,45 245,16 248,45" fill="#dc2626" />
+      {/* Central nave */}
+      <rect x="175" y="100" width="50" height="85" fill="#1e293b" />
+      <polygon points="175,100 200,70 225,100" fill="#0f172a" />
+      {/* Rose window */}
+      <circle cx="200" cy="118" r="14" fill="#fbbf24" stroke="#d97706" strokeWidth="3" />
+      <circle cx="200" cy="118" r="6" fill="#dc2626" />
+      {/* Portal */}
+      <path d="M192 185 A 8 10 0 0 1 208 185 Z" fill="#d97706" />
+      {/* Windows */}
+      <rect x="152" y="75" width="6" height="20" rx="3" fill="#fbbf24" opacity="0.85" />
+      <rect x="242" y="75" width="6" height="20" rx="3" fill="#fbbf24" opacity="0.85" />
+      {/* Clouds */}
+      <ellipse cx="60" cy="50" rx="28" ry="12" fill="#fff" opacity="0.8" />
+      <ellipse cx="340" cy="60" rx="32" ry="13" fill="#fff" opacity="0.8" />
+    </svg>
+  );
+}
+
+function FoodIllustration() {
+  return (
+    <svg viewBox="0 0 400 220" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="tableGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#d97706" />
+          <stop offset="100%" stopColor="#92400e" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="135" fill="#fef3c7" />
+      <rect y="135" width="400" height="85" fill="url(#tableGrad)" />
+      {/* Pizza Plate */}
+      <ellipse cx="200" cy="155" rx="95" ry="50" fill="#e2e8f0" />
+      {/* Pizza Crust */}
+      <ellipse cx="200" cy="153" rx="85" ry="42" fill="#d97706" stroke="#b45309" strokeWidth="3" />
+      {/* Cheese */}
+      <ellipse cx="200" cy="152" rx="72" ry="34" fill="#facc15" />
+      {/* Toppings */}
+      <circle cx="160" cy="146" r="9" fill="#dc2626" />
+      <circle cx="230" cy="143" r="10" fill="#dc2626" />
+      <circle cx="195" cy="160" r="11" fill="#dc2626" />
+      <circle cx="170" cy="162" r="7" fill="#16a34a" />
+      <circle cx="232" cy="158" r="8" fill="#16a34a" />
+      <circle cx="204" cy="138" r="7" fill="#16a34a" />
+      {/* Drink Glass */}
+      <rect x="315" y="105" width="28" height="50" rx="4" fill="#ef4444" opacity="0.9" />
+      <line x1="329" y1="85" x2="329" y2="135" stroke="#facc15" strokeWidth="4" />
+      {/* Fork */}
+      <rect x="65" y="125" width="7" height="45" rx="3" fill="#64748b" />
+      <path d="M60 125 L60 110 M65 125 L65 110 M70 125 L70 110 M77 125 L77 110" stroke="#64748b" strokeWidth="2.5" />
+    </svg>
+  );
+}
+
+function BreadIllustration() {
+  return (
+    <svg viewBox="0 0 400 220" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="breadBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#fffbeb" />
+          <stop offset="100%" stopColor="#fef3c7" />
+        </linearGradient>
+        <linearGradient id="crustGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#b45309" />
+          <stop offset="50%" stopColor="#d97706" />
+          <stop offset="100%" stopColor="#f59e0b" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="220" fill="url(#breadBg)" />
+      {/* Board */}
+      <rect x="45" y="150" width="310" height="20" rx="8" fill="#78350f" />
+      {/* Loaf */}
+      <path d="M85 150 C 85 75, 280 75, 280 150 Z" fill="url(#crustGrad)" stroke="#78350f" strokeWidth="3" />
+      {/* Slash cuts */}
+      <path d="M120 125 Q 135 100, 145 130" stroke="#fff" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.9" />
+      <path d="M170 120 Q 185 95, 195 125" stroke="#fff" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.9" />
+      <path d="M220 125 Q 235 100, 245 130" stroke="#fff" strokeWidth="6" strokeLinecap="round" fill="none" opacity="0.9" />
+      {/* Bread slice */}
+      <path d="M275 150 C 275 105, 325 105, 325 150 Z" fill="#fef08a" stroke="#b45309" strokeWidth="2.5" />
+      <ellipse cx="300" cy="128" rx="14" ry="16" fill="#fef9c3" />
+      {/* Wheat */}
+      <path d="M48 115 Q 65 95, 55 65" stroke="#d97706" strokeWidth="2.5" fill="none" />
+      <ellipse cx="50" cy="72" rx="4" ry="8" fill="#f59e0b" transform="rotate(-20 50 72)" />
+      <ellipse cx="59" cy="82" rx="4" ry="8" fill="#f59e0b" transform="rotate(20 59 82)" />
+      <ellipse cx="53" cy="94" rx="4" ry="8" fill="#f59e0b" transform="rotate(-20 53 94)" />
+    </svg>
+  );
+}
+
+function BicycleIllustration() {
+  return (
+    <svg viewBox="0 0 400 220" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="skyB" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f0f9ff" />
+          <stop offset="100%" stopColor="#bae6fd" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="220" fill="url(#skyB)" />
+      <rect y="175" width="400" height="45" fill="#64748b" />
+      <line x1="0" y1="175" x2="400" y2="175" stroke="#475569" strokeWidth="3" />
+      {/* Rear Wheel */}
+      <circle cx="110" cy="142" r="35" fill="none" stroke="#0f172a" strokeWidth="5" />
+      <circle cx="110" cy="142" r="31" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1" />
+      <circle cx="110" cy="142" r="5" fill="#0f172a" />
+      <line x1="110" y1="111" x2="110" y2="173" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="79" y1="142" x2="141" y2="142" stroke="#94a3b8" strokeWidth="1.5" />
+      {/* Front Wheel */}
+      <circle cx="285" cy="142" r="35" fill="none" stroke="#0f172a" strokeWidth="5" />
+      <circle cx="285" cy="142" r="31" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="1" />
+      <circle cx="285" cy="142" r="5" fill="#0f172a" />
+      <line x1="285" y1="111" x2="285" y2="173" stroke="#94a3b8" strokeWidth="1.5" />
+      <line x1="254" y1="142" x2="316" y2="142" stroke="#94a3b8" strokeWidth="1.5" />
+      {/* Bike Frame */}
+      <polyline points="110,142 165,142 245,98 165,98 110,142" fill="none" stroke="#e11d48" strokeWidth="5.5" strokeLinejoin="round" />
+      <line x1="165" y1="142" x2="165" y2="85" stroke="#e11d48" strokeWidth="5.5" />
+      <line x1="165" y1="142" x2="245" y2="98" stroke="#e11d48" strokeWidth="5.5" />
+      <line x1="245" y1="98" x2="285" y2="142" stroke="#e11d48" strokeWidth="5.5" />
+      {/* Handlebars */}
+      <path d="M245 98 L250 75 L270 75" fill="none" stroke="#1e293b" strokeWidth="4.5" strokeLinecap="round" />
+      {/* Saddle */}
+      <path d="M145 85 Q 165 80, 180 85" fill="none" stroke="#0f172a" strokeWidth="7" strokeLinecap="round" />
+      {/* Pedal */}
+      <circle cx="165" cy="142" r="10" fill="#334155" />
+      <line x1="165" y1="142" x2="175" y2="155" stroke="#0f172a" strokeWidth="3" />
+      <rect x="170" y="153" width="10" height="4" rx="2" fill="#0f172a" />
+    </svg>
+  );
+}
+
+function OfficeIllustration() {
+  return (
+    <svg viewBox="0 0 400 220" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" style={{ display: "block" }}>
+      <defs>
+        <linearGradient id="officeBg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#f8fafc" />
+          <stop offset="100%" stopColor="#e2e8f0" />
+        </linearGradient>
+      </defs>
+      <rect width="400" height="220" fill="url(#officeBg)" />
+      {/* Window */}
+      <rect x="35" y="25" width="95" height="85" fill="#bae6fd" stroke="#94a3b8" strokeWidth="3.5" />
+      <line x1="82" y1="25" x2="82" y2="110" stroke="#94a3b8" strokeWidth="2.5" />
+      <line x1="35" y1="67" x2="130" y2="67" stroke="#94a3b8" strokeWidth="2.5" />
+      {/* Table */}
+      <rect y="145" width="400" height="75" fill="#92400e" />
+      <rect y="145" width="400" height="10" fill="#b45309" />
+      {/* Laptop */}
+      <rect x="170" y="70" width="105" height="70" rx="4" fill="#0f172a" />
+      <rect x="175" y="75" width="95" height="60" fill="#0284c7" />
+      {/* Screen text lines */}
+      <line x1="185" y1="85" x2="225" y2="85" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+      <line x1="185" y1="95" x2="250" y2="95" stroke="#fef08a" strokeWidth="3" strokeLinecap="round" />
+      <line x1="185" y1="105" x2="215" y2="105" stroke="#a7f3d0" strokeWidth="3" strokeLinecap="round" />
+      {/* Laptop keyboard base */}
+      <path d="M150 140 L295 140 L285 147 L160 147 Z" fill="#94a3b8" />
+      {/* Coffee mug */}
+      <rect x="315" y="118" width="24" height="27" rx="3" fill="#dc2626" />
+      <path d="M339 123 Q 348 131, 339 139" fill="none" stroke="#dc2626" strokeWidth="3.5" />
+      {/* Lamp */}
+      <path d="M125 145 L125 85 L150 75" fill="none" stroke="#334155" strokeWidth="3.5" />
+      <polygon points="145,70 165,80 150,90" fill="#eab308" />
+    </svg>
+  );
+}
+
 const PHOTO_QUESTIONS = [
   {
-    image: "https://images.unsplash.com/photo-1548625361-195fe5787e98?w=500&auto=format&fit=crop&q=80",
+    Illustration: DomIllustration,
     caption: "Das ist der Kölner Dom.",
     translation: "This is the Cologne Cathedral.",
     isTrue: true,
   },
   {
-    image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=80",
+    Illustration: FoodIllustration,
     caption: "Das ist ein Fahrrad.",
     translation: "This is a bicycle.",
-    isTrue: false, // Picture is a restaurant / food
+    isTrue: false, // Picture is a restaurant meal with pizza
   },
   {
-    image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500&auto=format&fit=crop&q=80",
+    Illustration: BreadIllustration,
     caption: "Das ist Brot.",
     translation: "This is bread.",
     isTrue: true,
   },
   {
-    image: "https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=500&auto=format&fit=crop&q=80",
+    Illustration: BicycleIllustration,
     caption: "Das ist ein Fahrrad.",
     translation: "This is a bicycle.",
     isTrue: true,
   },
   {
-    image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format&fit=crop&q=80",
+    Illustration: OfficeIllustration,
     caption: "Das ist eine Kirche.",
     translation: "This is a church.",
-    isTrue: false, // Picture is an office/cafe
+    isTrue: false, // Picture is an office workspace
   },
 ];
 
 export function PhotoTrueFalse({ onFinish }) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(6);
   const [picked, setPicked] = useState(null);
   const [done, setDone] = useState(false);
 
   const q = PHOTO_QUESTIONS[currentIdx];
-
-  useEffect(() => {
-    if (done || picked !== null) return;
-    if (timeLeft <= 0) {
-      handleAnswer(null); // Time's up
-      return;
-    }
-    const timer = setInterval(() => setTimeLeft((t) => t - 1), 1000);
-    return () => clearInterval(timer);
-  }, [timeLeft, done, picked]);
 
   function handleAnswer(ans) {
     if (picked !== null) return;
@@ -187,23 +380,23 @@ export function PhotoTrueFalse({ onFinish }) {
 
     setTimeout(() => {
       setPicked(null);
-      setTimeLeft(6);
       if (currentIdx + 1 >= PHOTO_QUESTIONS.length) {
         setDone(true);
       } else {
         setCurrentIdx((i) => i + 1);
       }
-    }, 1200);
+    }, 1000);
   }
 
-  const earnedCoins = 30 + score * 14; // up to 100 coins
+  // Coins strictly earned per correct answer: 12 coins each (max 60 coins, 0 if score 0)
+  const earnedCoins = score * 12;
 
   return (
     <div className="kg-minigame-card kg-photo-wrap">
       <div className="kg-minigame-badge">📸 Bonus-Spiel 2 von 3</div>
       <h2 className="kg-minigame-title">Foto-Detektiv: Wahr oder Falsch?</h2>
       <p className="kg-minigame-desc">
-        Schau dir das Bild genau an. Stimmt der deutsche Satz? Schnelligkeit zählt!
+        Schau dir das Bild genau an. Stimmt der deutsche Satz? Klicke auf Richtig oder Falsch!
       </p>
 
       {!done ? (
@@ -212,11 +405,12 @@ export function PhotoTrueFalse({ onFinish }) {
             <span className="kg-step">
               Bild {currentIdx + 1} von {PHOTO_QUESTIONS.length}
             </span>
-            <span className="kg-timer-chip">⏱️ {timeLeft}s</span>
+            <span className="kg-score-chip">Richtige Antworten: <strong>{score}</strong></span>
           </div>
 
+          {/* Guaranteed Beautiful Artwork Illustration */}
           <div className="kg-photo-frame">
-            <img src={q.image} alt="Quiz Bild" className="kg-photo-img" />
+            <q.Illustration />
           </div>
 
           <div className="kg-photo-caption-card">
@@ -261,12 +455,25 @@ export function PhotoTrueFalse({ onFinish }) {
         <div className="kg-prize-announce">
           <h3>🎉 Detektiv-Runde beendet!</h3>
           <p>
-            Du hast <strong>{score} von 5</strong> Bildern richtig erkannt!
+            Du hast <strong>{score} von {PHOTO_QUESTIONS.length}</strong> Bildern richtig erkannt!
           </p>
-          <div className="kg-reward-badge">🪙 +{earnedCoins} Goldmünzen verdient!</div>
-          <button className="kg-btn kg-btn-primary" onClick={() => onFinish(earnedCoins)}>
-            Münzen einsammeln & Weitergehen ➔
-          </button>
+          {score > 0 ? (
+            <>
+              <div className="kg-reward-badge">🪙 +{earnedCoins} Goldmünzen verdient!</div>
+              <button className="kg-btn kg-btn-primary" onClick={() => onFinish(earnedCoins)}>
+                {earnedCoins} Münzen einsammeln ➔
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="kg-reward-badge" style={{ background: "#fef2f2", color: "#b91c1c", border: "1px solid #fecaca" }}>
+                0 Münzen (Leider kein Bild richtig – beim nächsten Mal klappt es!)
+              </div>
+              <button className="kg-btn" onClick={() => onFinish(0)}>
+                Weitergehen (0 Münzen) ➔
+              </button>
+            </>
+          )}
         </div>
       )}
     </div>

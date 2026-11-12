@@ -2222,6 +2222,21 @@
   border: 1px solid #fca5a5;
 }
 
+.kg-score-chip {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.kg-score-chip strong {
+  color: #15803d;
+  font-size: 13px;
+}
+
 .kg-photo-frame {
   width: 100%;
   height: 220px;
