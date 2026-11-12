@@ -69,6 +69,47 @@ function getLandmarkName(p) {
   return { name: "Kölner Dom (Kathedrale)", sub: "Ziel & Meisterprüfung" };
 }
 
+// Dynamic Road Elevation & Slopes: Walking ON TOP of Hohenzollern Bridge
+function getRoadElevation(p) {
+  if (p < 0.14) {
+    // Street level in Altstadt
+    return Math.sin(p * Math.PI * 14) * 3;
+  } else if (p < 0.24) {
+    // Climbing ramp onto the Hohenzollern Bridge
+    const rampT = (p - 0.14) / 0.10;
+    const ease = (1 - Math.cos(rampT * Math.PI)) / 2;
+    return -ease * 78;
+  } else if (p <= 0.80) {
+    // High on top of the Hohenzollern Bridge over the Rhine River!
+    const bridgeT = (p - 0.24) / 0.56;
+    return -78 - Math.sin(bridgeT * Math.PI) * 18;
+  } else if (p <= 0.88) {
+    // Bridge ramp down to Cathedral Domplatte
+    const rampDown = (p - 0.80) / 0.08;
+    const ease = (1 - Math.cos(rampDown * Math.PI)) / 2;
+    return -78 + ease * 48; // levels out at -30px
+  } else {
+    // Elevated Cathedral Domplatte
+    return -30;
+  }
+}
+
+function getRoadTilt(p) {
+  if (p >= 0.14 && p < 0.24) {
+    // Climbing uphill onto bridge
+    return -5.5;
+  } else if (p >= 0.24 && p <= 0.80) {
+    // Subtle arch tilt across bridge
+    const bridgeT = (p - 0.24) / 0.56;
+    return -Math.cos(bridgeT * Math.PI) * 2.2;
+  } else if (p > 0.80 && p <= 0.88) {
+    // Descending ramp
+    return 3.5;
+  } else {
+    return 0;
+  }
+}
+
 export default function CityGame({ city, chapterSlug, backHref = "/" }) {
   const stops = city.stops;
   const n = stops.length;
@@ -588,11 +629,13 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
   const sunOpacity = scrollProgress > 0.82 ? 0 : 1;
   const starsOpacity = scrollProgress > 0.8 ? (scrollProgress - 0.8) / 0.2 : 0;
   const landmark = getLandmarkName(scrollProgress);
+  const heroY = getRoadElevation(scrollProgress);
+  const heroTilt = getRoadTilt(scrollProgress);
 
   return (
     <div ref={rootRef} className="kg-root" style={{ height: `${(n + 1) * 110}vh` }}>
       <div className="kg-stage">
-        {/* Dynamic Sky Layer */}
+        {/* Dynamic Sky Layer with Sun, Stars, Clouds, Birds & Cable Car */}
         <div className="kg-sky" style={{ background: skyBackground }}>
           <div
             className="kg-sky-sun"
@@ -602,6 +645,41 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
             }}
           />
           <div className="kg-sky-stars" style={{ opacity: starsOpacity }} />
+
+          {/* Drifting Parallax Clouds */}
+          <div className="kg-sky-clouds" aria-hidden="true">
+            <div className="kg-cloud kg-cloud-1" />
+            <div className="kg-cloud kg-cloud-2" />
+            <div className="kg-cloud kg-cloud-3" />
+            <div className="kg-cloud kg-cloud-4" />
+          </div>
+
+          {/* Flying Rhine River Birds (Seagulls & Pigeons) */}
+          <div className="kg-birds-layer" aria-hidden="true">
+            <div className="kg-bird kg-bird-1">
+              <span className="kg-wing kg-wing-l" /><span className="kg-wing kg-wing-r" />
+            </div>
+            <div className="kg-bird kg-bird-2">
+              <span className="kg-wing kg-wing-l" /><span className="kg-wing kg-wing-r" />
+            </div>
+            <div className="kg-bird kg-bird-3">
+              <span className="kg-wing kg-wing-l" /><span className="kg-wing kg-wing-r" />
+            </div>
+            <div className="kg-bird kg-bird-4">
+              <span className="kg-wing kg-wing-l" /><span className="kg-wing kg-wing-r" />
+            </div>
+          </div>
+
+          {/* Kölner Seilbahn (Cologne River Cable Car) */}
+          <div className="kg-seilbahn" aria-hidden="true" title="Kölner Seilbahn über den Rhein">
+            <div className="kg-cable-line" />
+            <div className="kg-gondola">
+              <div className="kg-gondola-hanger" />
+              <div className="kg-gondola-cab">
+                <div className="kg-gondola-win" />
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Ambient Leaves Floating in Breeze */}
@@ -619,23 +697,90 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
           style={{ width: `${TRAVEL * 0.16 + 180}vw`, backgroundImage: FAR_SKYLINE }}
         />
 
-        {/* Parallax Layer 2: Midground Old Town Altstadt & Bridges */}
+        {/* Parallax Layer 2: Midground Old Town Altstadt, River & Cruise Boat */}
         <div
           ref={midRef}
           className="kg-layer kg-mid"
           style={{ width: `${TRAVEL * 0.42 + 180}vw`, backgroundImage: MID_STREET }}
-        />
+        >
+          {/* Rhine River Sightseeing Cruise Ship (Köln-Düsseldorfer Tour-Schiff) */}
+          <div className="kg-rhine-boat" aria-hidden="true" title="KD Rheinschiff Köln">
+            <div className="kg-boat-hull">
+              <div className="kg-boat-deck">
+                <div className="kg-boat-win" />
+                <div className="kg-boat-win" />
+                <div className="kg-boat-win" />
+              </div>
+              <div className="kg-boat-chimney" />
+              <div className="kg-boat-flag">🇩🇪</div>
+            </div>
+            <div className="kg-boat-ripple" />
+          </div>
+        </div>
 
-        {/* Track with Cobblestone Street, Obstacles, and Coins */}
+        {/* Track with Cobblestone Street, Hohenzollern Bridge, Lanterns, Obstacles */}
         <div ref={trackRef} className="kg-track" style={{ width: `${20 + TRAVEL + 80}vw` }}>
           <div className="kg-road" style={{ backgroundImage: NEAR_STREET }} />
 
-          {/* Vocabulary Coins */}
+          {/* Grand Hohenzollern Bridge with Elevated Roadway Deck (Spans across the Rhine River: 0.16 to 0.82) */}
+          <div
+            className="kg-bridge-deck-container"
+            style={{
+              left: `${20 + 0.16 * TRAVEL}vw`,
+              width: `${(0.82 - 0.16) * TRAVEL}vw`,
+            }}
+            aria-hidden="true"
+          >
+            {/* Rhine River Water flowing underneath the bridge */}
+            <div className="kg-bridge-water-under" />
+
+            {/* Massive Stone Piers supporting the Bridge in the River */}
+            <div className="kg-bridge-stone-pier" style={{ left: "0%" }} />
+            <div className="kg-bridge-stone-pier" style={{ left: "33%" }} />
+            <div className="kg-bridge-stone-pier" style={{ left: "66%" }} />
+            <div className="kg-bridge-stone-pier" style={{ left: "99%" }} />
+
+            {/* Grand Overhead Green Steel Truss Arches rising high above the road */}
+            <div className="kg-bridge-arch-truss kg-truss-span-1" />
+            <div className="kg-bridge-arch-truss kg-truss-span-2" />
+            <div className="kg-bridge-arch-truss kg-truss-span-3" />
+
+            {/* Physical Elevated Bridge Roadway Deck where player & stops stand */}
+            <div className="kg-bridge-elevated-road" />
+
+            {/* Bridge Railing with iconic Cologne Love Locks (Liebesschlösser) */}
+            <div className="kg-bridge-iron-railing">
+              <div className="kg-love-locks-strip" />
+            </div>
+          </div>
+
+          {/* Historic Street Lanterns along the Promenade */}
+          {[0.06, 0.20, 0.35, 0.48, 0.62, 0.76, 0.90].map((lp, lIdx) => (
+            <div
+              key={`lamp-${lIdx}`}
+              className="kg-lantern"
+              style={{
+                left: `${20 + lp * TRAVEL}vw`,
+                transform: `translateX(-50%) translateY(${getRoadElevation(lp)}px)`,
+              }}
+              aria-hidden="true"
+            >
+              <div className="kg-lantern-post" />
+              <div className="kg-lantern-head">
+                <div className={`kg-lantern-glow ${scrollProgress > 0.6 ? "is-lit" : ""}`} />
+              </div>
+            </div>
+          ))}
+
+          {/* Vocabulary Coins (Following Road Elevation) */}
           {coinItems.map((c) => (
             <div
               key={c.key}
               className={`kg-coin ${bagSet.has(c.key) ? "kg-coin-got" : ""}`}
-              style={{ left: `${20 + c.p * TRAVEL}vw` }}
+              style={{
+                left: `${20 + c.p * TRAVEL}vw`,
+                transform: `translateX(-50%) translateY(${getRoadElevation(c.p)}px)`,
+              }}
               aria-hidden="true"
             >
               <div className="kg-coin-disc" />
@@ -643,14 +788,17 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
             </div>
           ))}
 
-          {/* 3 Surprise Mini-Game Pavilions (After Stop 3, Stop 6, Stop 9) */}
+          {/* 3 Surprise Mini-Game Pavilions (Following Road Elevation) */}
           {SURPRISE_EVENTS.map((ev) => {
             const isOpened = openedEvents.has(ev.id);
             return (
               <div
                 key={ev.id}
                 className={`kg-pavilion ${isOpened ? "kg-pavilion-done" : ""}`}
-                style={{ left: `${20 + ev.p * TRAVEL}vw` }}
+                style={{
+                  left: `${20 + ev.p * TRAVEL}vw`,
+                  transform: `translateX(-50%) translateY(${getRoadElevation(ev.p)}px)`,
+                }}
                 onClick={() => handleTriggerEvent(ev)}
                 title={isOpened ? "Bereits abgeschlossen ⭐" : "🎁 Klicke für das Bonus-Spiel!"}
               >
@@ -661,12 +809,19 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
             );
           })}
 
-          {/* Checkpoint Landmark Arches */}
+          {/* Checkpoint Landmark Arches (Following Road Elevation) */}
           {stops.map((s, i) => {
             const isDone = done.has(s.id);
             const isBoss = s.kind === "boss";
             return (
-              <div key={s.id} className="kg-stop" style={{ left: `${20 + pos[i] * TRAVEL}vw` }}>
+              <div
+                key={s.id}
+                className="kg-stop"
+                style={{
+                  left: `${20 + pos[i] * TRAVEL}vw`,
+                  transform: `translateX(-50%) translateY(${getRoadElevation(pos[i])}px)`,
+                }}
+              >
                 <div
                   className={`kg-arch ${isDone ? "kg-arch-open kg-arch-clickable" : ""}`}
                   onClick={() => isDone && handleReplayStop(s.id)}
@@ -694,7 +849,13 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
           })}
 
           {/* Destination: Kölner Dom Plaza (Finish Landmark) */}
-          <div className="kg-finish" style={{ left: `${20 + TRAVEL}vw` }}>
+          <div
+            className="kg-finish"
+            style={{
+              left: `${20 + TRAVEL}vw`,
+              transform: `translateX(-50%) translateY(${getRoadElevation(1)}px)`,
+            }}
+          >
             <div className="kg-dom-plaza">
               <div className="kg-dom-spires">⛪</div>
               <span>Kölner Dom Geschafft!</span>
@@ -702,8 +863,15 @@ export default function CityGame({ city, chapterSlug, backHref = "/" }) {
           </div>
         </div>
 
-        {/* Animated Traveler Character with Vehicle & Suit */}
-        <div ref={heroRef} className="kg-hero" aria-hidden="true">
+        {/* Animated Traveler Character with Vehicle & Suit (Rides the Road Slopes & Bridge Arches!) */}
+        <div
+          ref={heroRef}
+          className="kg-hero"
+          aria-hidden="true"
+          style={{
+            transform: `translateX(-50%) translateY(${heroY}px) rotate(${heroTilt}deg)`,
+          }}
+        >
           <Traveler
             isWalking={isWalking}
             vehicle={currentVehicle}
